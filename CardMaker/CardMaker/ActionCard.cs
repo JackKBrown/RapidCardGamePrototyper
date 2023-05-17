@@ -6,29 +6,13 @@ namespace CardMaker
 {
 	public class ActionCard
 	{
-		private string CardName { get; set; }
-		private string AbilityCost { get; set; }
-		private string CardAbility { get; set; }
-		private int Movement { get; set; }
-		private int Attack { get; set; }
-		private string FlavourText { get; set; }
-		private string CardClass { get; set; }
+		public string CardName { get; set; }
+		public string AbilityCost { get; set; }
+		public string CardAbility { get; set; }
+		public int Movement { get; set; }
+		public int Attack { get; set; }
+		public string FlavourText { get; set; }
+		public string CardClass { get; set; }
 
-		public ActionCard(string cardName, string abilityCost, string cardAbility,
-			int movement, int attack, string flavourText, string cardClass)
-		{
-			CardName = cardName;
-			AbilityCost = abilityCost;
-			CardAbility = cardAbility;
-			Movement = movement;
-			Attack = attack;
-			FlavourText = flavourText;
-			CardClass = cardClass;
-		}
-
-		public void createJson()
-		{
-
-		}
 	}
 }

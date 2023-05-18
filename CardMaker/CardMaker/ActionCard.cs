@@ -14,11 +14,11 @@ namespace CardMaker
 		[Name("Card Ability")]
 		public string CardAbility { get; set; }
 		[Name("Rondel Move")]
-		public int Movement { get; set; }
+		public string Movement { get; set; }
 		[Name("Attack Value")]
-		public int Attack { get; set; }
+		public string Attack { get; set; }
 		[Name("Attack Ability")]
-		public int AttackAbility { get; set; }
+		public string AttackAbility { get; set; }
 		[Name("Flavour Text")]
 		public string FlavourText { get; set; }
 		[Name("Notes")]

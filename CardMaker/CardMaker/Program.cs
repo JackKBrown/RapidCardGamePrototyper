@@ -62,6 +62,7 @@ namespace CardMaker
             }
             
             Console.WriteLine("Hello World!");
+            Console.ReadLine();
         }
 
         private static bool ExtractPath(string[] args, ref int i, out string path)

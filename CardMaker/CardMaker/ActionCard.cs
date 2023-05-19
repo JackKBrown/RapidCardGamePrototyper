@@ -7,6 +7,7 @@ namespace CardMaker
 {
 	public class ActionCard
 	{
+		// attributes from csv
 		[Name("Card Name")]
 		public string CardName { get; set; }
 		[Name("Ability Cost")]
@@ -27,6 +28,18 @@ namespace CardMaker
 		public string Frequency { get; set; }
 		[Name("Classifacation")]
 		public string CardClass { get; set; }
+
+		// constants
+		public readonly int CardHeight = 2100;
+		public readonly int CardWidth = 1500;
+
+		public void DrawCard()
+        {
+			List<Layer> layers = new List<Layer>();
+
+			// populate layer list
+			// ask Card Drawer to merge layer
+        }
 
 	}
 }

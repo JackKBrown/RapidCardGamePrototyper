@@ -22,7 +22,6 @@ namespace CardMaker
                 while (csv.Read())
                 {
                     var card = csv.GetRecord<ActionCard>();
-                    Console.WriteLine(card.CardName + " is a " + card.CardClass);
                     cards.Add(card);
                     // Do something with the record.
                 }

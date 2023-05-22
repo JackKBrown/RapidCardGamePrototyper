@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,57 +11,63 @@ namespace CardMaker
 {
     class CardDrawer
     {
-        private static readonly FontFamily defaultFF = new FontFamily("");
-        private static readonly float fontSize = 9;
-        public static readonly Font defaultFont = new Font(defaultFF, fontSize);
+        private static readonly CardDrawer cardDrawer = new CardDrawer();
+        private Font defaultFont = new Font("Arial", 16);
 
-        public static void MergeLayers(List<Layer> layers, int CardWidth, int CardHeight)
+        public static CardDrawer Instance()
+		{
+            return cardDrawer;
+		}
+
+        private CardDrawer()
+		{
+        }
+
+        public void MergeLayers(List<Layer> layers, int CardWidth, int CardHeight)
         {
             //potential challenges tansparency not being included
             var bitmap = new Bitmap(CardWidth, CardHeight);
+            bitmap.SetResolution(1200,1200);
+            Console.WriteLine($"b width {bitmap.Width}");
+            Console.WriteLine($"b height {bitmap.Height}");
+            
+
             using (var g = Graphics.FromImage(bitmap))
-{
+            {
+                Console.WriteLine($"g width {g.ClipBounds.Width}");
+                Console.WriteLine($"g height {g.ClipBounds.Height}");
                 foreach (var layer in layers)
                 {
-                    g.DrawImage(layer.Image, layer.X, layer.Y);
+                    Console.WriteLine($"im width {layer.Image.Width}");
+                    Console.WriteLine($"im height {layer.Image.Height}");
+                    Bitmap bmap = new Bitmap(layer.Image);
+                    bmap.SetResolution(1200, 1200);
+                    g.DrawImage(bmap, layer.X, layer.Y);
                 }
             }
+            bitmap.Save("out.png", System.Drawing.Imaging.ImageFormat.Png);
             //output image
         }
 
-        public static Layer CreateTextLayer(int x, int y, int width, int height, string text)
+        public Layer CreateTextLayer(int x, int y, int width, int height, string text, StringFormat format)
         {
-            Image img = new Bitmap(1, 1);
+            RectangleF layoutRect = new RectangleF(0, 0, width, height);
+            Image img = new Bitmap(width, height);
             Graphics drawing = Graphics.FromImage(img);
+            Brush BlackBrush = new SolidBrush(Color.Black);
 
-            //measure the string to see how big the image needs to be
-            SizeF textSize = drawing.MeasureString(text, defaultFont);
-
-            //free up the dummy image and old graphics object
-            img.Dispose();
-            drawing.Dispose();
-
-            //create a new image of the right size
-            img = new Bitmap((int)textSize.Width, (int)textSize.Height);
-
-            drawing = Graphics.FromImage(img);
-
-            //paint the background
-            //drawing.Clear(backColor);
-
-            Brush textBrush = new SolidBrush(Color.Black);
-            drawing.DrawString(text, defaultFont, textBrush, 0, 0);
+            drawing.DrawString(text, defaultFont, BlackBrush, layoutRect, format);
 
             drawing.Save();
 
-            textBrush.Dispose();
+            BlackBrush.Dispose();
             drawing.Dispose();
 
             Layer layer = new Layer(x, y, img);
             return layer;
         }
 
-        public static Layer CreateLayerFromFile(int x, int y, int width, int height, string imagePath)
+        public Layer CreateLayerFromFile(int x, int y, int width, int height, string imagePath)
         {
             Image image = Bitmap.FromFile(imagePath);
             Layer layer = new Layer(x, y, image);

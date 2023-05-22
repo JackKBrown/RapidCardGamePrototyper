@@ -81,6 +81,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(ProjectDir)Rondelon - ActionCards.csv"  "$(ProjectDir)$(OutDir)"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(ProjectDir)Rondelon - ActionCards.csv"  "$(ProjectDir)$(OutDir)"
+xcopy /y /s /e "$(ProjectDir)Img"  "$(ProjectDir)$(OutDir)\Img\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -49,6 +49,7 @@ namespace CardMaker
                 //Make Action Cards
                 Console.WriteLine("Making action cards found in " + ActionCardPath);
                 List<ActionCard> cards = RondlelonParser.ParseActionCardCSV(ActionCardPath);
+                cards[0].DrawCard();
             }
             if (!String.IsNullOrEmpty(RondelCardPath))
             {

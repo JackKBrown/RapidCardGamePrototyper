@@ -70,19 +70,23 @@ namespace CardMaker
         {
 			StringFormat Wrap = new StringFormat();
 			StringFormat NoWrap = new StringFormat();
-
 			List<Layer> layers = new List<Layer>();
-			layers.Add(CardDrawer.Instance().CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
-			layers.Add(CardDrawer.Instance().CreateLayerFromFile(0, 0, 0, 0, ActionTemplate)); // template
-			layers.Add(CardDrawer.Instance().CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, NoWrap)); //cardname
+			CardDrawer cd = CardDrawer.Instance();
+
+			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
+			layers.Add(cd.CreateLayerFromFile(0, 0, 0, 0, ActionTemplate)); // template
+			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.LargeFont, NoWrap)); //cardname
+			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.LargeFont, NoWrap)); //cardmove
+			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.LargeFont, NoWrap)); //cardattack
 			
+
 			if(!string.IsNullOrEmpty(CardAbility))
 			{
-				layers.Add(CardDrawer.Instance().CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, CardAbility, Wrap)); //cardability
+				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, CardAbility, cd.mediumFont, Wrap)); //cardability
 			}
 			if (!string.IsNullOrEmpty(AttackAbility))
 			{
-				layers.Add(CardDrawer.Instance().CreateTextLayer(AABoxX, AABoxY, AABoxWidth, AABoxHeight, AttackAbility, Wrap)); //card
+				layers.Add(cd.CreateTextLayer(AABoxX, AABoxY, AABoxWidth, AABoxHeight, AttackAbility,cd.mediumFont, Wrap)); //card
 			}
 			
 			Console.WriteLine(layers[0].Image.Width);

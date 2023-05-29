@@ -12,7 +12,9 @@ namespace CardMaker
     class CardDrawer
     {
         private static readonly CardDrawer cardDrawer = new CardDrawer();
-        private Font defaultFont = new Font("Arial", 16);
+        public Font defaultFont = new Font("Arial", 16);
+        public Font mediumFont = new Font("Arial", 16);
+        public Font LargeFont = new Font("Arial", 32);
 
         public static CardDrawer Instance()
 		{
@@ -49,14 +51,14 @@ namespace CardMaker
             //output image
         }
 
-        public Layer CreateTextLayer(int x, int y, int width, int height, string text, StringFormat format)
+        public Layer CreateTextLayer(int x, int y, int width, int height, string text, Font font, StringFormat format)
         {
             RectangleF layoutRect = new RectangleF(0, 0, width, height);
             Image img = new Bitmap(width, height);
             Graphics drawing = Graphics.FromImage(img);
             Brush BlackBrush = new SolidBrush(Color.Black);
 
-            drawing.DrawString(text, defaultFont, BlackBrush, layoutRect, format);
+            drawing.DrawString(text, font, BlackBrush, layoutRect, format);
 
             drawing.Save();
 

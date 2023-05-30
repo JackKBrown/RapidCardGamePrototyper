@@ -43,12 +43,12 @@ namespace CardMaker
 		public readonly int NameBoxWidth = (int)(0.8 * CardWidth);
 		public readonly int NameBoxHeight = (int)(0.1 * CardHeight);
 
-		public readonly int MBoxX = (int)(0.05 * CardWidth);
-		public readonly int MBoxY = (int)(0.2 * CardHeight);
+		public readonly int MBoxX = (int)(0.06 * CardWidth);
+		public readonly int MBoxY = (int)(0.18 * CardHeight);
 		public readonly int MBoxWidth = (int)(0.1 * CardWidth);
 		public readonly int MBoxHeight = (int)(0.1 * CardHeight);
 
-		public readonly int ABoxX = (int)(0.05 * CardWidth);
+		public readonly int ABoxX = (int)(0.06 * CardWidth);
 		public readonly int ABoxY = (int)(0.3 * CardHeight);
 		public readonly int ABoxWidth = (int)(0.1 * CardWidth);
 		public readonly int ABoxHeight = (int)(0.1 * CardHeight);
@@ -66,7 +66,7 @@ namespace CardMaker
 
 		public readonly string ActionTemplate = @"Img/RondelonTemplate.png";
 
-		public void DrawCard()
+		public void DrawCard(string outputDirectory)
         {
 			StringFormat Wrap = new StringFormat();
 			StringFormat NoWrap = new StringFormat();
@@ -76,8 +76,8 @@ namespace CardMaker
 			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
 			layers.Add(cd.CreateLayerFromFile(0, 0, 0, 0, ActionTemplate)); // template
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.LargeFont, NoWrap)); //cardname
-			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.LargeFont, NoWrap)); //cardmove
-			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.LargeFont, NoWrap)); //cardattack
+			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.BoxFont, NoWrap)); //cardmove
+			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.BoxFont, NoWrap)); //cardattack
 			
 
 			if(!string.IsNullOrEmpty(CardAbility))
@@ -89,11 +89,9 @@ namespace CardMaker
 				layers.Add(cd.CreateTextLayer(AABoxX, AABoxY, AABoxWidth, AABoxHeight, AttackAbility,cd.mediumFont, Wrap)); //card
 			}
 			
-			Console.WriteLine(layers[0].Image.Width);
-			Console.WriteLine(layers[0].Image.Height);
-			CardDrawer.Instance().MergeLayers(layers, CardWidth, CardHeight);
-			// populate layer list
-			// ask Card Drawer to merge layer
+			Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, CardWidth, CardHeight);
+			string filelocation = outputDirectory + CardName + ".png";
+			bmap.Save(filelocation, System.Drawing.Imaging.ImageFormat.Png);
 		}
 
 	}

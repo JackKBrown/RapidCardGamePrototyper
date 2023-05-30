@@ -6,6 +6,9 @@ namespace CardMaker
 {
     class Program
     {
+        public static string ActionCardOut = @"ActionCards/";
+        public static string RondelCardOut = @"RondelTiles/";
+        public static string MonsterCardOut = @"MontserCards/";
         static void Main(string[] args)
         {
             string ActionCardPath = null;
@@ -49,7 +52,13 @@ namespace CardMaker
                 //Make Action Cards
                 Console.WriteLine("Making action cards found in " + ActionCardPath);
                 List<ActionCard> cards = RondlelonParser.ParseActionCardCSV(ActionCardPath);
-                cards[0].DrawCard();
+                bool exists = System.IO.Directory.Exists(ActionCardOut);
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(ActionCardOut);
+                foreach (ActionCard card in cards)
+				{
+                    card.DrawCard(ActionCardOut);
+				}
             }
             if (!String.IsNullOrEmpty(RondelCardPath))
             {
@@ -62,7 +71,7 @@ namespace CardMaker
                 Console.WriteLine("Making monster cards found in " + MonsterCardPath);
             }
             
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Finished, press enter to exit...");
             Console.ReadLine();
         }
 

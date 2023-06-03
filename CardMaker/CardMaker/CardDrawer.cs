@@ -14,7 +14,8 @@ namespace CardMaker
         private static readonly CardDrawer cardDrawer = new CardDrawer();
         public Font defaultFont = new Font("Arial", 16);
         public Font mediumFont = new Font("Arial", 16);
-        public Font LargeFont = new Font("Arial", 32);
+        public Font LargeFont = new Font("Arial", 22);
+        public Font NameFont = new Font("Arial", 32);
         public Font BoxFont = new Font("Arial", 40);
 
         public static CardDrawer Instance()

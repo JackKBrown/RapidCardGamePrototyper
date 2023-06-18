@@ -29,7 +29,6 @@ namespace CardMaker
 		public string Frequency { get; set; }
 		[Name("Classifacation")]
 		public string CardClass { get; set; }
-		public string CardImage = @"Img/Innkeeper.png";
 
 		// constants
 		public static readonly int CardHeight = 1050;
@@ -76,6 +75,8 @@ namespace CardMaker
 			List<Layer> layers = new List<Layer>();
 			CardDrawer cd = CardDrawer.Instance();
 
+			string CardImage = $"Img/{CardName.Replace(" ", "").ToLower()}";
+
 			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
 			layers.Add(cd.CreateLayerFromFile(0, 0, 0, 0, ActionTemplate)); // template
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.LargeFont, Right)); //cardname
@@ -94,6 +95,15 @@ namespace CardMaker
 				Font abilityFont = cd.mediumFont;
 				if (CardAbility.Length < 150) abilityFont = cd.LargeFont;
 				layers.Add(cd.CreateTextLayer(AABoxX, AABoxY, AABoxWidth, AABoxHeight, AttackAbility,abilityFont, Center)); //card
+			}
+
+			if (CardClass.Length>0)
+			{
+				string[] classes = CardClass.Split(',');
+				foreach (string cClass in classes)
+				{
+					string classImage = $"Img/{cClass.Replace(" ", "").ToLower()}";
+				}
 			}
 			
 			Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, CardWidth, CardHeight);

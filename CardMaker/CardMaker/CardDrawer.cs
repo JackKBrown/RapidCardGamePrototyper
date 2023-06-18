@@ -12,11 +12,12 @@ namespace CardMaker
     class CardDrawer
     {
         private static readonly CardDrawer cardDrawer = new CardDrawer();
-        public Font defaultFont = new Font("Arial", 16);
-        public Font mediumFont = new Font("Arial", 16);
-        public Font LargeFont = new Font("Arial", 22);
-        public Font NameFont = new Font("Arial", 32);
-        public Font BoxFont = new Font("Arial", 40);
+        PrivateFontCollection privateFontCollection = new PrivateFontCollection();
+        string FONT_FILE = "NotoSans-Regular.ttf";
+        public Font mediumFont;
+        public Font LargeFont;
+        public Font NameFont;
+        public Font BoxFont;
 
         public static CardDrawer Instance()
 		{
@@ -25,7 +26,12 @@ namespace CardMaker
 
         private CardDrawer()
 		{
-        }
+            privateFontCollection.AddFontFile(FONT_FILE);
+            mediumFont = new Font(FONT_FILE, 16);
+            LargeFont = new Font(FONT_FILE, 22);
+            NameFont = new Font(FONT_FILE, 32);
+            BoxFont = new Font(FONT_FILE, 40);
+    }
 
         public Bitmap MergeLayers(List<Layer> layers, int CardWidth, int CardHeight)
         {
@@ -63,6 +69,13 @@ namespace CardMaker
             drawing.Dispose();
 
             Layer layer = new Layer(x, y, img);
+            return layer;
+        }
+
+        public Layer CreateLayerFromFile(int x, int y, string imagePath)
+        {
+            Image image = Bitmap.FromFile(imagePath);
+            Layer layer = new Layer(x, y, image);
             return layer;
         }
 

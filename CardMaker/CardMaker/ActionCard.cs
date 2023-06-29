@@ -75,8 +75,8 @@ namespace CardMaker
 			List<Layer> layers = new List<Layer>();
 			CardDrawer cd = CardDrawer.Instance();
 
-			//string CardImage = $"Img/{CardName.Replace(" ", "").ToLower()}.png";
-			string CardImage = $"Img/innkeeper.png";
+			string CardImage = $"Img/{CardName.Replace(" ", "").ToLower()}.png";
+			//string CardImage = $"Img/innkeeper.png";
 
 			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
 			layers.Add(cd.CreateLayerFromFile(0, 0, 0, 0, ActionTemplate)); // template

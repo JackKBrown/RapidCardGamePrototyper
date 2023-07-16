@@ -3,6 +3,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <NXTargetSerialNumber />
     <NXTargetName>Default</NXTargetName>
-    <StartArguments>--ActionPath "Rondelon - ActionCards.csv"</StartArguments>
+    <StartArguments>--ActionPath "Rondelon - ActionCards.csv" --MonsterPath "Rondelon - MonsterCards.csv"</StartArguments>
   </PropertyGroup>
 </Project>

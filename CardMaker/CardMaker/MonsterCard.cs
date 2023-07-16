@@ -15,7 +15,7 @@ namespace CardMaker
 		public string MonsterID { get; set; }
 		[Name("Monster Name")]
 		public string MonsterName { get; set; }
-		[Name("Max cards")]
+		[Name("Max Cards")]
 		public string MaxCards { get; set; }
 		[Name("Hit Points")]
 		public string HitPoints { get; set; }
@@ -25,8 +25,8 @@ namespace CardMaker
 		public string CardImage = @"Img/Innkeeper.png";
 
 		// constants
-		public static readonly int CardHeight = 1050;
-		public static readonly int CardWidth = 750;
+		public static readonly int CardHeight = 750;
+		public static readonly int CardWidth = 1050;
 
 		public readonly int CardImageX = (int)(0.05 * CardWidth);
 		public readonly int CardImageY = (int)(0.1 * CardHeight);
@@ -51,7 +51,7 @@ namespace CardMaker
 		public readonly int CABoxWidth = (int)(0.9 * CardWidth);
 		public readonly int CABoxHeight = (int)(0.4 * CardHeight);
 
-		public readonly string ActionTemplate = @"Img/MonsterTemplate.png";
+		public readonly string ActionTemplate = @"Img/MonsterTemplateFront.png";
 
 		public void DrawCard(string outputDirectory)
 		{

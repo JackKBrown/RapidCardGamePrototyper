@@ -69,6 +69,14 @@ namespace CardMaker
             {
                 //Make Monster Cards
                 Console.WriteLine("Making monster cards found in " + MonsterCardPath);
+                List<MonsterCard> cards = RondlelonParser.ParseMonsterCardCSV(MonsterCardPath);
+                bool exists = System.IO.Directory.Exists(MonsterCardOut);
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(MonsterCardOut);
+                foreach (MonsterCard card in cards)
+                {
+                    card.DrawCard(MonsterCardOut);
+                }
             }
             
             Console.WriteLine("Finished, press enter to exit...");

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CardMaker
 {
-	public class ActionCard
+	public class ActionCard	: Card
 	{
 		// attributes from csv
 		[Name("Card Name")]
@@ -65,7 +65,7 @@ namespace CardMaker
 
 		public readonly string ActionTemplate = @"Img/RondelonTemplate.png";
 
-		public void DrawCard(string outputDirectory)
+		public override void DrawCard(string outputDirectory)
         {
 			StringFormat Center = new StringFormat();
 			Center.Alignment = StringAlignment.Center;

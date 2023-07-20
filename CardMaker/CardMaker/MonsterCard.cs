@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CardMaker
 {
-    class MonsterCard
+    class MonsterCard : Card
 	{
 		// attributes from csv
 		[Name("Monster ID")]
@@ -55,7 +55,7 @@ namespace CardMaker
 
 		public readonly string ActionTemplate = @"Img/MonsterTemplateFront.png";
 
-		public void DrawCard(string outputDirectory)
+		public override void DrawCard(string outputDirectory)
 		{
 			StringFormat Wrap = new StringFormat();
 			StringFormat NoWrap = new StringFormat();

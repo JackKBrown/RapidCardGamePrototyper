@@ -8,67 +8,40 @@ using System.Threading.Tasks;
 
 namespace CardMaker
 {
-    class RondelCard
+    class RondelCard :Card
 	{
 		// attributes from csv
+		[Name("Rondel ID")]
+		public string RondelID { get; set; }
+		[Name("Rondel Type")]
+		public string RondelType { get; set; }
 		[Name("Rondel Name")]
-		public string CardName { get; set; }
-		[Name("Ability Cost")]
-		public string AbilityCost { get; set; }
-		[Name("Card Ability")]
-		public string CardAbility { get; set; }
-		[Name("Rondel Move")]
-		public string Movement { get; set; }
-		[Name("Attack Value")]
-		public string Attack { get; set; }
-		[Name("Attack Ability")]
-		public string AttackAbility { get; set; }
-		[Name("Flavour Text")]
-		public string FlavourText { get; set; }
-		[Name("Notes")]
-		public string Notes { get; set; }
-		[Name("Frequency")]
-		public string Frequency { get; set; }
-		[Name("Classifacation")]
-		public string CardClass { get; set; }
-		public string CardImage = @"Img/Innkeeper.png";
+		public string RondelName { get; set; }
+		[Name("Effect")]
+		public string Effect { get; set; }
+
+		public string CardImage = @"Img/BankRondel.png";
 
 		// constants
-		public static readonly int CardHeight = 1050;
-		public static readonly int CardWidth = 750;
+		public static readonly int CardHeight = 1000;
+		public static readonly int CardWidth = 1000;
 
-		public readonly int CardImageX = (int)(0.05 * CardWidth);
-		public readonly int CardImageY = (int)(0.1 * CardHeight);
+		public readonly int CardImageX = 0;
+		public readonly int CardImageY = 0;
+		//public readonly int CardImageWidth = (int)(0.57 * CardWidth);
+		//public readonly int CardImageHeight = (int)(0.8 * CardHeight);
 
-		public readonly int NameBoxX = (int)(0.1 * CardWidth);
+		public readonly int NameBoxX = (int)(0.3 * CardWidth);
 		public readonly int NameBoxY = (int)(0.05 * CardHeight);
-		public readonly int NameBoxWidth = (int)(0.8 * CardWidth);
+		public readonly int NameBoxWidth = (int)(0.5 * CardWidth);
 		public readonly int NameBoxHeight = (int)(0.1 * CardHeight);
 
-		public readonly int MBoxX = (int)(0.06 * CardWidth);
-		public readonly int MBoxY = (int)(0.18 * CardHeight);
-		public readonly int MBoxWidth = (int)(0.1 * CardWidth);
-		public readonly int MBoxHeight = (int)(0.1 * CardHeight);
+		public readonly int CABoxX = (int)(0.62 * CardWidth);
+		public readonly int CABoxY = (int)(0.53 * CardHeight);
+		public readonly int CABoxWidth = (int)(0.33 * CardWidth);
+		public readonly int CABoxHeight = (int)(0.33 * CardHeight);
 
-		public readonly int ABoxX = (int)(0.06 * CardWidth);
-		public readonly int ABoxY = (int)(0.3 * CardHeight);
-		public readonly int ABoxWidth = (int)(0.1 * CardWidth);
-		public readonly int ABoxHeight = (int)(0.1 * CardHeight);
-
-		public readonly int CABoxX = (int)(0.05 * CardWidth);
-		public readonly int CABoxY = (int)(0.6 * CardHeight);
-		public readonly int CABoxWidth = (int)(0.9 * CardWidth);
-		public readonly int CABoxHeight = (int)(0.4 * CardHeight);
-
-		public readonly int AABoxX = (int)(0.1 * CardWidth);
-		public readonly int AABoxY = (int)(0.7 * CardHeight);
-		public readonly int AABoxWidth = (int)(0.8 * CardWidth);
-		public readonly int AABoxHeight = (int)(0.2 * CardHeight);
-
-
-		public readonly string ActionTemplate = @"Img/RondelonTemplate.png";
-
-		public void DrawCard(string outputDirectory)
+		public override void DrawCard(string outputDirectory)
 		{
 			StringFormat Wrap = new StringFormat();
 			StringFormat NoWrap = new StringFormat();
@@ -76,23 +49,15 @@ namespace CardMaker
 			CardDrawer cd = CardDrawer.Instance();
 
 			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
-			layers.Add(cd.CreateLayerFromFile(0, 0, 0, 0, ActionTemplate)); // template
-			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.LargeFont, NoWrap)); //cardname
-			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.BoxFont, NoWrap)); //cardmove
-			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.BoxFont, NoWrap)); //cardattack
+			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, RondelName, cd.LargeFont, NoWrap)); //cardname
 
-
-			if (!string.IsNullOrEmpty(CardAbility))
+			if (!string.IsNullOrEmpty(Effect))
 			{
-				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, CardAbility, cd.mediumFont, Wrap)); //cardability
-			}
-			if (!string.IsNullOrEmpty(AttackAbility))
-			{
-				layers.Add(cd.CreateTextLayer(AABoxX, AABoxY, AABoxWidth, AABoxHeight, AttackAbility, cd.mediumFont, Wrap)); //card
+				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, Effect, cd.mediumFont, Wrap)); //cardability
 			}
 
 			Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, CardWidth, CardHeight);
-			string filelocation = outputDirectory + CardName + ".png";
+			string filelocation = outputDirectory + RondelName + ".png";
 			bmap.Save(filelocation, System.Drawing.Imaging.ImageFormat.Png);
 		}
 

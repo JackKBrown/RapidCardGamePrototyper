@@ -8,7 +8,7 @@ namespace CardMaker
     {
         public static string ActionCardOut = @"ActionCards/";
         public static string RondelCardOut = @"RondelTiles/";
-        public static string MonsterCardOut = @"MontserCards/";
+        public static string MonsterCardOut = @"MonsterCards/";
         static void Main(string[] args)
         {
             string ActionCardPath = null;
@@ -51,7 +51,7 @@ namespace CardMaker
             {
                 //Make Action Cards
                 Console.WriteLine("Making action cards found in " + ActionCardPath);
-                List<ActionCard> cards = RondlelonParser.ParseActionCardCSV(ActionCardPath);
+                List<ActionCard> cards = RondlelonParser.ParseCardCSV<ActionCard>(ActionCardPath);
                 bool exists = System.IO.Directory.Exists(ActionCardOut);
                 if (!exists)
                     System.IO.Directory.CreateDirectory(ActionCardOut);
@@ -64,12 +64,20 @@ namespace CardMaker
             {
                 //Make Rondel Cards
                 Console.WriteLine("Making rondel cards found in " + RondelCardPath);
+                List<RondelCard> cards = RondlelonParser.ParseCardCSV<RondelCard>(RondelCardPath);
+                bool exists = System.IO.Directory.Exists(RondelCardOut);
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(RondelCardOut);
+                foreach (RondelCard card in cards)
+                {
+                    card.DrawCard(RondelCardOut);
+                }
             }
             if (!String.IsNullOrEmpty(MonsterCardPath))
             {
                 //Make Monster Cards
                 Console.WriteLine("Making monster cards found in " + MonsterCardPath);
-                List<MonsterCard> cards = RondlelonParser.ParseMonsterCardCSV(MonsterCardPath);
+                List<MonsterCard> cards = RondlelonParser.ParseCardCSV<MonsterCard>(MonsterCardPath);
                 bool exists = System.IO.Directory.Exists(MonsterCardOut);
                 if (!exists)
                     System.IO.Directory.CreateDirectory(MonsterCardOut);

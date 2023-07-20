@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionCard.cs" />
+    <Compile Include="Card.cs" />
     <Compile Include="CardDrawer.cs" />
     <Compile Include="MonsterCard.cs" />
     <Compile Include="Program.cs" />
@@ -85,6 +86,7 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(ProjectDir)Rondelon - ActionCards.csv"  "$(ProjectDir)$(OutDir)"
 xcopy /y "$(ProjectDir)Rondelon - MonsterCards.csv"  "$(ProjectDir)$(OutDir)"
+xcopy /y "$(ProjectDir)Rondelon - RondelCards.csv"  "$(ProjectDir)$(OutDir)"
 xcopy /y "$(ProjectDir)NotoSans-Regular.ttf"  "$(ProjectDir)$(OutDir)"
 xcopy /y /s /e "$(ProjectDir)Img"  "$(ProjectDir)$(OutDir)\Img\"
 </PostBuildEvent>

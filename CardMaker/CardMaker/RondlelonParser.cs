@@ -11,9 +11,9 @@ namespace CardMaker
 {
     class RondlelonParser
     {
-        public static List<ActionCard> ParseActionCardCSV(string FilePath)
+        public static List<Card> ParseCardCSV<Card>(string FilePath)
         {
-            List<ActionCard> cards = new List<ActionCard>();
+            List<Card> cards = new List<Card>();
             using (var reader = new StreamReader(FilePath))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
@@ -21,30 +21,11 @@ namespace CardMaker
                 csv.ReadHeader();
                 while (csv.Read())
                 {
-                    var card = csv.GetRecord<ActionCard>();
+                    var card = csv.GetRecord<Card>();
                     cards.Add(card);
-                    // Do something with the record.
                 }
             }
             return cards;
         }
-
-		internal static List<MonsterCard> ParseMonsterCardCSV(string FilePath)
-		{
-            List<MonsterCard> cards = new List<MonsterCard>();
-            using (var reader = new StreamReader(FilePath))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                csv.Read();
-                csv.ReadHeader();
-                while (csv.Read())
-                {
-                    var card = csv.GetRecord<MonsterCard>();
-                    cards.Add(card);
-                    // Do something with the record.
-                }
-            }
-            return cards;
-        }
-	}
+    }
 }

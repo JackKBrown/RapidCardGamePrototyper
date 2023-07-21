@@ -36,6 +36,8 @@ namespace CardMaker
 
 		public readonly int CardImageX = (int)(0.03 * CardWidth);
 		public readonly int CardImageY = (int)(0.1 * CardHeight);
+		public readonly int CardImageWidth = (int)(0.94 * CardWidth);
+		//public readonly int CardImageHeight = (int)(0.94 * CardWidth);
 
 		public readonly int NameBoxX = (int)(0.06 * CardWidth);
 		public readonly int NameBoxY = (int)(0.035 * CardHeight);
@@ -79,7 +81,7 @@ namespace CardMaker
 			//string CardImage = $"Img/innkeeper.png";
 
 			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
-			layers.Add(cd.CreateLayerFromFile(0, 0, 0, 0, ActionTemplate)); // template
+			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, ActionTemplate)); // template
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.LargeFont, Right)); //cardname
 			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.BoxFont, Center)); //cardmove
 			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.BoxFont, Center)); //cardattack

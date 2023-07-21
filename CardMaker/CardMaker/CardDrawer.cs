@@ -46,7 +46,7 @@ namespace CardMaker
                 {
                     Bitmap bmap = new Bitmap(layer.Image);
                     bmap.SetResolution(1200, 1200);
-                    g.DrawImage(bmap, layer.X, layer.Y);
+                    g.DrawImage(bmap, layer.X, layer.Y, layer.Width, layer.Height);
                 }
             }
             return bitmap;
@@ -68,21 +68,21 @@ namespace CardMaker
             BlackBrush.Dispose();
             drawing.Dispose();
 
-            Layer layer = new Layer(x, y, img);
+            Layer layer = new Layer(x, y, width, height, img);
             return layer;
         }
 
         public Layer CreateLayerFromFile(int x, int y, string imagePath)
         {
             Image image = Bitmap.FromFile(imagePath);
-            Layer layer = new Layer(x, y, image);
+            Layer layer = new Layer(x, y, image.Width, image.Height, image);
             return layer;
         }
 
         public Layer CreateLayerFromFile(int x, int y, int width, int height, string imagePath)
         {
             Image image = Bitmap.FromFile(imagePath);
-            Layer layer = new Layer(x, y, image);
+            Layer layer = new Layer(x, y, width, height, image);
             return layer;
         }
 
@@ -94,12 +94,16 @@ namespace CardMaker
         public string Name;
         public int X;
         public int Y;
+        public int Width;
+        public int Height;
         public Image Image;
 
-        public Layer(int x, int y, Image image)
+        public Layer(int x, int y, int width, int height, Image image)
         {
             X = x;
             Y = y;
+            Width = width;
+            Height = height;
             Image = image;
         }
     }

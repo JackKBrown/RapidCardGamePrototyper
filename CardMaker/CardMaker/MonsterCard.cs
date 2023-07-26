@@ -38,10 +38,10 @@ namespace CardMaker
 		public readonly int NameBoxWidth = (int)(0.5 * CardWidth);
 		public readonly int NameBoxHeight = (int)(0.1 * CardHeight);
 
-		//public readonly int CBoxX = (int)(0.75 * CardWidth);
-		//public readonly int CBoxY = (int)(0.21 * CardHeight);
-		//public readonly int CBoxWidth = (int)(0.1 * CardWidth);
-		//public readonly int CBoxHeight = (int)(0.1 * CardHeight);
+		public readonly int MBoxX = (int)(0.5 * CardWidth);
+		public readonly int MBoxY = (int)(0.5 * CardHeight);
+		public readonly int MBoxWidth = (int)(0.1 * CardWidth);
+		public readonly int MBoxHeight = (int)(0.1 * CardHeight);
 
 		public readonly int HPBoxX = (int)(0.75 * CardWidth);
 		public readonly int HPBoxY = (int)(0.21 * CardHeight);
@@ -53,30 +53,39 @@ namespace CardMaker
 		public readonly int CABoxWidth = (int)(0.33 * CardWidth);
 		public readonly int CABoxHeight = (int)(0.33 * CardHeight);
 
-		public readonly string ActionTemplate = @"Img/MonsterTemplateFront.png";
+		public readonly string MonsterTemplate = @"Img/MonsterTemplateFront.png";
+		public readonly string MonsterTemplateBack = @"Img/MonsterTemplateBack.png";
 
 		public override void DrawCard(string outputDirectory)
 		{
 			StringFormat Wrap = new StringFormat();
 			StringFormat NoWrap = new StringFormat();
 			List<Layer> layers = new List<Layer>();
+			List<Layer> backLayers = new List<Layer>();
 			CardDrawer cd = CardDrawer.Instance();
 
-			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
-			layers.Add(cd.CreateLayerFromFile(0, 0, 0, 0, ActionTemplate)); // template
+			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, CardImageWidth, CardImageHeight, CardImage));//card image
+			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, MonsterTemplate)); // template
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, MonsterName, cd.LargeFont, NoWrap)); //cardname
 			//layers.Add(cd.CreateTextLayer(CBoxX, CBoxY, CBoxWidth, CBoxHeight, MaxCards, cd.BoxFont, NoWrap)); //MaxCards this isn't on the front of the card
 			layers.Add(cd.CreateTextLayer(HPBoxX, HPBoxY, HPBoxWidth, HPBoxHeight, HitPoints, cd.BoxFont, NoWrap)); //HP
-
 
 			if (!string.IsNullOrEmpty(Effect))
 			{
 				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, Effect, cd.mediumFont, Wrap)); //cardability
 			}
 
+			backLayers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, MonsterTemplateBack)); // template
+			backLayers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, MaxCards, cd.BoxFont, NoWrap)); //MaxCards
+
+
 			Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, CardWidth, CardHeight);
 			string filelocation = outputDirectory + MonsterName + "Front.png";
 			bmap.Save(filelocation, System.Drawing.Imaging.ImageFormat.Png);
+
+			Bitmap bmapBack = CardDrawer.Instance().MergeLayers(backLayers, CardWidth, CardHeight);
+			string filelocationBack = outputDirectory + MonsterName + "Back.png";
+			bmapBack.Save(filelocationBack, System.Drawing.Imaging.ImageFormat.Png);
 		}
 
 	}

@@ -72,10 +72,23 @@ namespace CardMaker
             return layer;
         }
 
-        public Layer CreateLayerFromFile(int x, int y, string imagePath)
+        public Layer CreateLayerFromFileUniform(int x, int y, int minWidth, int minHeight, string imagePath)
         {
             Image image = Bitmap.FromFile(imagePath);
-            Layer layer = new Layer(x, y, image.Width, image.Height, image);
+            int Width = image.Width;
+            int Height = image.Height;
+            //set height to minheight and adjust width
+            double HRatio = (double)minHeight / (double)Height;
+            Height = minHeight;
+            Width = (int)(HRatio * Width);
+            //if not wide enough adjust by width instead
+            if (Width < minWidth)
+            {
+                double WRatio = (double)minWidth / (double)Width;
+                Height = (int)(WRatio * Height);
+                Width = minWidth;
+            }
+            Layer layer = new Layer(x, y, Width, Height, image);
             return layer;
         }
 

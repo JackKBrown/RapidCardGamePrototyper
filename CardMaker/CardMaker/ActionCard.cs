@@ -37,7 +37,7 @@ namespace CardMaker
 		public readonly int CardImageX = (int)(0.03 * CardWidth);
 		public readonly int CardImageY = (int)(0.1 * CardHeight);
 		public readonly int CardImageWidth = (int)(0.94 * CardWidth);
-		//public readonly int CardImageHeight = (int)(0.94 * CardWidth);
+		public readonly int CardImageHeight = (int)(0.45 * CardWidth);
 
 		public readonly int NameBoxX = (int)(0.06 * CardWidth);
 		public readonly int NameBoxY = (int)(0.035 * CardHeight);
@@ -67,6 +67,13 @@ namespace CardMaker
 
 		public readonly string ActionTemplate = @"Img/RondelonTemplate.png";
 
+		public Font ChooseFont(string text)
+        {
+			CardDrawer cd = CardDrawer.Instance();
+			return cd.BoxFont;
+        }
+
+
 		public override void DrawCard(string outputDirectory)
         {
 			StringFormat Center = new StringFormat();
@@ -80,9 +87,10 @@ namespace CardMaker
 			string CardImage = $"Img/{CardName.Replace(" ", "").ToLower()}.png";
 			//string CardImage = $"Img/innkeeper.png";
 
-			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
+			layers.Add(cd.CreateLayerFromFileUniform(CardImageX, CardImageY, CardImageWidth, CardImageHeight, CardImage));//card image
 			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, ActionTemplate)); // template
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.LargeFont, Right)); //cardname
+
 			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.BoxFont, Center)); //cardmove
 			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.BoxFont, Center)); //cardattack
 			

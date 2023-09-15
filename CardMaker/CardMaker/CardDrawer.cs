@@ -74,10 +74,10 @@ namespace CardMaker
                 string[] text_symbol = substring.Split('@');
                 if (text_symbol.Length > 1)
                 {
-                    string subtext = totalstring + text_symbol[0] + SYMBOL_BUFFER;
+                    string subtext = totalstring + text_symbol[0];
                     string sympath = @"Img/" + text_symbol[1] + ".png";
                     DrawSymbolMidText(subtext, sympath, font, drawing);
-                    totalstring = subtext;
+                    totalstring = subtext +SYMBOL_BUFFER;
                 }
                 else
                 {
@@ -104,6 +104,7 @@ namespace CardMaker
         private void DrawSymbolMidText(string subtext, string symbolpath, Font font, Graphics drawing)
         {
             Console.WriteLine("called with subtext '" + subtext +"' and a symbol path of: " + symbolpath);
+
             //TODO
             //you can measure the size of some text using the MeasureText function which gives you which line(y coord)
             //its going to go on then I need to recursively find out what text is on each line so I can find the position it is in that line (x coord)

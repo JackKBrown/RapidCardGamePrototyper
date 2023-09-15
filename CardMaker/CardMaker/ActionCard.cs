@@ -70,7 +70,13 @@ namespace CardMaker
 		public Font ChooseFont(string text)
         {
 			CardDrawer cd = CardDrawer.Instance();
-			return cd.BoxFont;
+			int size = 40;
+			if (text.Length < 30) size = 50;
+			else if (text.Length < 50) size = 40;
+			else if (text.Length < 80) size = 30;
+			else if (text.Length >= 80) size = 20;
+			Font customFont = new Font(cd.FONT_FILE, size);
+			return customFont;
         }
 
 
@@ -90,21 +96,18 @@ namespace CardMaker
 			layers.Add(cd.CreateLayerFromFileUniform(CardImageX, CardImageY, CardImageWidth, CardImageHeight, CardImage));//card image
 			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, ActionTemplate)); // template
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.LargeFont, Right)); //cardname
-
+			
 			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.BoxFont, Center)); //cardmove
 			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.BoxFont, Center)); //cardattack
-			
-
-			if(!string.IsNullOrEmpty(CardAbility))
+			Font abilityFont = cd.mediumFont;
+			if(CardAbility.Length > AttackAbility.Length) abilityFont = ChooseFont(CardAbility);
+			else abilityFont = ChooseFont(AttackAbility);
+			if (!string.IsNullOrEmpty(CardAbility))
 			{
-				Font abilityFont = cd.mediumFont;
-				if (CardAbility.Length < 150) abilityFont = cd.LargeFont;
 				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, CardAbility, abilityFont, Center)); //cardability
 			}
 			if (!string.IsNullOrEmpty(AttackAbility))
 			{
-				Font abilityFont = cd.mediumFont;
-				if (CardAbility.Length < 150) abilityFont = cd.LargeFont;
 				layers.Add(cd.CreateTextLayer(AABoxX, AABoxY, AABoxWidth, AABoxHeight, AttackAbility,abilityFont, Center)); //card
 			}
 

@@ -22,8 +22,6 @@ namespace CardMaker
 		[Name("Effect")]
 		public string Effect { get; set; }
 
-		public string CardImage = @"Img/Innkeeper.png";
-
 		// constants
 		public static readonly int CardHeight = 750;
 		public static readonly int CardWidth = 1050;
@@ -63,7 +61,7 @@ namespace CardMaker
 			List<Layer> layers = new List<Layer>();
 			List<Layer> backLayers = new List<Layer>();
 			CardDrawer cd = CardDrawer.Instance();
-
+			string CardImage = $"Img/{MonsterName.Replace(" ", "").ToLower()}.png";
 			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, CardImageWidth, CardImageHeight, CardImage));//card image
 			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, MonsterTemplate)); // template
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, MonsterName, cd.LargeFont, NoWrap)); //cardname

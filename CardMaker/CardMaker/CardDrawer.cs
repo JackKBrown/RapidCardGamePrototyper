@@ -5,7 +5,9 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CardMaker
 {
@@ -13,7 +15,8 @@ namespace CardMaker
     {
         private static readonly CardDrawer cardDrawer = new CardDrawer();
         PrivateFontCollection privateFontCollection = new PrivateFontCollection();
-        string FONT_FILE = "NotoSans-Regular.ttf";
+        private static string SYMBOL_BUFFER = "  ";
+        public string FONT_FILE = "NotoSans-Regular.ttf";
         public Font mediumFont;
         public Font LargeFont;
         public Font NameFont;
@@ -61,7 +64,33 @@ namespace CardMaker
             Graphics drawing = Graphics.FromImage(img);
             Brush BlackBrush = new SolidBrush(Color.Black);
 
-            drawing.DrawString(text, font, BlackBrush, layoutRect, format);
+            //search string for symbol tags till none are found
+            Regex rgx = new Regex(@"(.*@[^ ]*)");
+            string[] symbols = rgx.Split(text);
+            string totalstring = "";
+            foreach(string substring in symbols)
+            {
+                //Console.WriteLine(substring);
+                string[] text_symbol = substring.Split('@');
+                if (text_symbol.Length > 1)
+                {
+                    string subtext = totalstring + text_symbol[0] + SYMBOL_BUFFER;
+                    string sympath = @"Img/" + text_symbol[1] + ".png";
+                    DrawSymbolMidText(subtext, sympath, font, drawing);
+                    totalstring = subtext;
+                }
+                else
+                {
+                    totalstring = totalstring + text_symbol[0];
+                } 
+            }
+            //foreach symbol tag search for if that symbol exists and if so draw onto the img
+            //DrawSymbolMidText()
+
+            drawing.DrawString(totalstring, font, BlackBrush, layoutRect, format);
+
+            //Console.WriteLine(drawing.MeasureString(text, font)); //https://stackoverflow.com/questions/4258696/find-a-character-in-a-user-drawn-string-at-a-given-point
+            
 
             drawing.Save();
 
@@ -70,6 +99,18 @@ namespace CardMaker
 
             Layer layer = new Layer(x, y, width, height, img);
             return layer;
+        }
+
+        private void DrawSymbolMidText(string subtext, string symbolpath, Font font, Graphics drawing)
+        {
+            Console.WriteLine("called with subtext '" + subtext +"' and a symbol path of: " + symbolpath);
+            //TODO
+            //you can measure the size of some text using the MeasureText function which gives you which line(y coord)
+            //its going to go on then I need to recursively find out what text is on each line so I can find the position it is in that line (x coord)
+            //with that I can then find out the rough height it needs to be ( the font data should tell me the line height)
+            //then I can draw the symbol into that spot (provided symbols are square images which is what we've done so far) I can then replace the text
+            //with enough whitespace to leave the spot for the symbol blank repeat the process for each symbol.
+            drawing.Save();
         }
 
         public Layer CreateLayerFromFileUniform(int x, int y, int minWidth, int minHeight, string imagePath)

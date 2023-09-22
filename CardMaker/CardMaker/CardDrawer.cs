@@ -15,7 +15,7 @@ namespace CardMaker
     {
         private static readonly CardDrawer cardDrawer = new CardDrawer();
         PrivateFontCollection privateFontCollection = new PrivateFontCollection();
-        private static string SYMBOL_BUFFER = "  ";
+        private static string SYMBOL_BUFFER = "    ";
         public string FONT_FILE = "NotoSans-Regular.ttf";
         public Font mediumFont;
         public Font LargeFont;
@@ -104,7 +104,18 @@ namespace CardMaker
         private void DrawSymbolMidText(string subtext, string symbolpath, Font font, Graphics drawing)
         {
             Console.WriteLine("called with subtext '" + subtext +"' and a symbol path of: " + symbolpath);
-
+            SizeF stringsz = drawing.MeasureString(subtext, font);
+            SizeF stringWBuffsz = drawing.MeasureString(subtext + SYMBOL_BUFFER, font);
+            SizeF buffersz = drawing.MeasureString(SYMBOL_BUFFER, font);
+            Console.WriteLine("stringsz = " + stringsz.ToString());
+            Console.WriteLine("stringWBuffsz = " + stringWBuffsz.ToString());
+            Console.WriteLine("buffersz = " + buffersz.ToString());
+            // single ln height
+            float lineheight = buffersz.Height;
+            if (stringsz.Height > lineheight)
+            {
+                string[] words = subtext.Split(' ');
+            }
             //TODO
             //you can measure the size of some text using the MeasureText function which gives you which line(y coord)
             //its going to go on then I need to recursively find out what text is on each line so I can find the position it is in that line (x coord)
@@ -113,6 +124,37 @@ namespace CardMaker
             //with enough whitespace to leave the spot for the symbol blank repeat the process for each symbol.
             drawing.Save();
         }
+
+        private string[] SplitTextByWidth(Graphics graphics, Font font, string text, float maxWidth)
+        {
+            string[] words = text.Split(' ');
+            List<string> lines = new List<string>();
+            string line = "";
+
+            foreach (string word in words)
+            {
+                string tempLine = line + (string.IsNullOrEmpty(line) ? "" : " ") + word;
+                float tempWidth = graphics.MeasureString(tempLine, font).Width;
+
+                if (tempWidth <= maxWidth)
+                {
+                    line = tempLine;
+                }
+                else
+                {
+                    lines.Add(line);
+                    line = word;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(line))
+            {
+                lines.Add(line);
+            }
+
+            return lines.ToArray();
+        }
+
 
         public Layer CreateLayerFromFileUniform(int x, int y, int minWidth, int minHeight, string imagePath)
         {

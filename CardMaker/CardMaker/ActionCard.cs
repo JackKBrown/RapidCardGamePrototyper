@@ -35,7 +35,7 @@ namespace CardMaker
 		public static readonly int CardWidth = 750;
 
 		public readonly int CardImageX = (int)(0.03 * CardWidth);
-		public readonly int CardImageY = (int)(0.1 * CardHeight);
+		public readonly int CardImageY = (int)(0.12 * CardHeight);
 		public readonly int CardImageWidth = (int)(0.94 * CardWidth);
 		public readonly int CardImageHeight = (int)(0.45 * CardWidth);
 

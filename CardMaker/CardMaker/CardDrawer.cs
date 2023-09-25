@@ -62,38 +62,20 @@ namespace CardMaker
             RectangleF layoutRect = new RectangleF(0, 0, width, height);
             Image img = new Bitmap(width, height);
             Graphics drawing = Graphics.FromImage(img);
-            Brush BlackBrush = new SolidBrush(Color.Black);
 
             //search string for symbol tags till none are found
-            Regex rgx = new Regex(@"(.*@[^ ]*)");
-            string[] symbols = rgx.Split(text);
-            string totalstring = "";
-            foreach(string substring in symbols)
+            string outtext = "";
+            if(text.Contains('@'))
             {
-                //Console.WriteLine(substring);
-                string[] text_symbol = substring.Split('@');
-                if (text_symbol.Length > 1)
-                {
-                    string subtext = totalstring + text_symbol[0];
-                    string sympath = @"Img/" + text_symbol[1] + ".png";
-                    DrawSymbolMidText(subtext, sympath, font, drawing);
-                    totalstring = subtext +SYMBOL_BUFFER;
-                }
-                else
-                {
-                    totalstring = totalstring + text_symbol[0];
-                } 
+                outtext=DrawSymbolText(x,y,width,height, text, font, drawing, format);
             }
-            //foreach symbol tag search for if that symbol exists and if so draw onto the img
-            //DrawSymbolMidText()
-
-            drawing.DrawString(totalstring, font, BlackBrush, layoutRect, format);
-
-            //Console.WriteLine(drawing.MeasureString(text, font)); //https://stackoverflow.com/questions/4258696/find-a-character-in-a-user-drawn-string-at-a-given-point
-            
-
+            else
+            {
+                outtext = text;
+            }
+            Brush BlackBrush = new SolidBrush(Color.Black);
+            drawing.DrawString(outtext, font, BlackBrush, layoutRect, format);
             drawing.Save();
-
             BlackBrush.Dispose();
             drawing.Dispose();
 
@@ -101,28 +83,64 @@ namespace CardMaker
             return layer;
         }
 
-        private void DrawSymbolMidText(string subtext, string symbolpath, Font font, Graphics drawing)
+        private string DrawSymbolText(int x, int y, int width, int height, string text, Font font, Graphics drawing, StringFormat format)
         {
-            Console.WriteLine("called with subtext '" + subtext +"' and a symbol path of: " + symbolpath);
-            SizeF stringsz = drawing.MeasureString(subtext, font);
-            SizeF stringWBuffsz = drawing.MeasureString(subtext + SYMBOL_BUFFER, font);
-            SizeF buffersz = drawing.MeasureString(SYMBOL_BUFFER, font);
-            Console.WriteLine("stringsz = " + stringsz.ToString());
-            Console.WriteLine("stringWBuffsz = " + stringWBuffsz.ToString());
-            Console.WriteLine("buffersz = " + buffersz.ToString());
-            // single ln height
-            float lineheight = buffersz.Height;
-            if (stringsz.Height > lineheight)
+            string[] words = text.Split(' ');
+            List<string> lines = new List<string>();
+            List<Symbol> Symbols = new List<Symbol>();
+            string line = "";
+            float lineheight = drawing.MeasureString(SYMBOL_BUFFER, font).Height; // there is a string format option for this?
+            foreach (string word in words)
             {
-                string[] words = subtext.Split(' ');
+                string tempLine = "";
+                if (word[0]=='@')
+                {
+                    word.Trim('@');
+                    string SymbolImage = $"Img/{word}.png";
+                    Image image = Bitmap.FromFile(SymbolImage);
+                    
+                    //Layer layer = new Layer(x, y, width, height, image);
+                    //TODO extract image and run draw symbol
+                    // need to check if it on the new line or not?
+                    //DrawSymbol();
+                    tempLine = line + (string.IsNullOrEmpty(line) ? "" : " ") + SYMBOL_BUFFER;
+                }
+                else
+                {
+                    tempLine = line + (string.IsNullOrEmpty(line) ? "" : " ") + word;
+                }
+                float tempHeight = drawing.MeasureString(tempLine, font).Width;
+
+                if (tempHeight >= lineheight)
+                {
+                    line = tempLine;
+                }
+                else
+                {
+                    lines.Add(line);
+                    line = word;
+                }
             }
-            //TODO
-            //you can measure the size of some text using the MeasureText function which gives you which line(y coord)
-            //its going to go on then I need to recursively find out what text is on each line so I can find the position it is in that line (x coord)
-            //with that I can then find out the rough height it needs to be ( the font data should tell me the line height)
-            //then I can draw the symbol into that spot (provided symbols are square images which is what we've done so far) I can then replace the text
-            //with enough whitespace to leave the spot for the symbol blank repeat the process for each symbol.
+
+            if (!string.IsNullOrEmpty(line))
+            {
+                lines.Add(line);
+            }
+            // here we need to work out from the string format, our list of symbollayers what the offset is for drawing our string?
+            //if we're centering
+            string newstring = "";
+            foreach (string entry in lines) newstring = newstring + entry;
+            return newstring;
+
+        }
+
+        private void DrawSymbol(float x, float y, float width, float height, string path, Graphics drawing)
+        {
+            Bitmap bmap = new Bitmap(path);
+            bmap.SetResolution(1200, 1200);
+            drawing.DrawImage(bmap, x, y, width, height);
             drawing.Save();
+            return;
         }
 
         private string[] SplitTextByWidth(Graphics graphics, Font font, string text, float maxWidth)
@@ -196,6 +214,26 @@ namespace CardMaker
         public Image Image;
 
         public Layer(int x, int y, int width, int height, Image image)
+        {
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
+            Image = image;
+        }
+    }
+
+    public class Symbol
+    {
+        //position of the layer on the final card
+        public string Name;
+        public float X;
+        public float Y;
+        public float Width;
+        public float Height;
+        public Image Image;
+
+        public Symbol(float x, float y, float width, float height, Image image)
         {
             X = x;
             Y = y;

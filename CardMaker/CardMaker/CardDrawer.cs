@@ -89,17 +89,23 @@ namespace CardMaker
             List<string> lines = new List<string>();
             List<Symbol> Symbols = new List<Symbol>();
             string line = "";
-            float lineheight = drawing.MeasureString(SYMBOL_BUFFER, font).Height; // there is a string format option for this?
+            SizeF buffer_sz = drawing.MeasureString(SYMBOL_BUFFER, font);// there is a string format option for this?
+            //potentially if there is a center x option set I can check for that to find the correct width for the symbol?
+            float lineheight = buffer_sz.Height; 
+            float sym_size = Math.Min(buffer_sz.Height, buffer_sz.Width);
             foreach (string word in words)
             {
                 string tempLine = "";
                 if (word[0]=='@')
                 {
-                    word.Trim('@');
-                    string SymbolImage = $"Img/{word}.png";
+                    string SymbolImage = $"Img/{word.Trim('@')}.png";
                     Image image = Bitmap.FromFile(SymbolImage);
-                    
-                    //Layer layer = new Layer(x, y, width, height, image);
+                    float sym_x = drawing.MeasureString(line, font).Width;
+                    float sym_y = lineheight*lines.Count; //this needs to be the top left corner
+                    float sym_height = sym_size;
+                    float sym_width = sym_size;
+                    Symbol symbol = new Symbol(sym_x, sym_y, sym_width, sym_height, image);
+                    Symbols.Add(symbol);
                     //TODO extract image and run draw symbol
                     // need to check if it on the new line or not?
                     //DrawSymbol();
@@ -130,15 +136,26 @@ namespace CardMaker
             //if we're centering
             string newstring = "";
             foreach (string entry in lines) newstring = newstring + entry;
+            float offsetheight = drawing.MeasureString(newstring, font, width,format).Height-
+                drawing.MeasureString(newstring, font).Height;
+            float offsetwidth = drawing.MeasureString(newstring, font, width, format).Width-
+                drawing.MeasureString(newstring, font).Width;
+       
+            foreach (Symbol symbol in Symbols)
+			{
+                symbol.Y = symbol.Y + offsetheight;
+                symbol.X = symbol.X + offsetwidth;
+                DrawSymbol(symbol, drawing);
+			}
             return newstring;
 
         }
 
-        private void DrawSymbol(float x, float y, float width, float height, string path, Graphics drawing)
+        private void DrawSymbol(Symbol symbol, Graphics drawing)
         {
-            Bitmap bmap = new Bitmap(path);
+            Bitmap bmap = new Bitmap(symbol.Image);
             bmap.SetResolution(1200, 1200);
-            drawing.DrawImage(bmap, x, y, width, height);
+            drawing.DrawImage(bmap, symbol.X, symbol.Y, symbol.Width, symbol.Height);
             drawing.Save();
             return;
         }

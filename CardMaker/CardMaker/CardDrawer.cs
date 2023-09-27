@@ -15,7 +15,7 @@ namespace CardMaker
     {
         private static readonly CardDrawer cardDrawer = new CardDrawer();
         PrivateFontCollection privateFontCollection = new PrivateFontCollection();
-        private static string SYMBOL_BUFFER = "    ";
+        private static string SYMBOL_BUFFER = "      ";
         public string FONT_FILE = "NotoSans-Regular.ttf";
         public Font mediumFont;
         public Font LargeFont;
@@ -85,12 +85,14 @@ namespace CardMaker
 
         private string DrawSymbolText(int x, int y, int width, int height, string text, Font font, Graphics drawing, StringFormat format)
         {
+            
             string[] words = text.Split(' ');
             List<string> lines = new List<string>();
             List<Symbol> Symbols = new List<Symbol>();
             string line = "";
             SizeF buffer_sz = drawing.MeasureString(SYMBOL_BUFFER, font);// there is a string format option for this?
             //potentially if there is a center x option set I can check for that to find the correct width for the symbol?
+            Console.WriteLine(buffer_sz);
             float lineheight = buffer_sz.Height; 
             float sym_size = Math.Min(buffer_sz.Height, buffer_sz.Width);
             foreach (string word in words)
@@ -100,7 +102,7 @@ namespace CardMaker
                 {
                     string SymbolImage = $"Img/{word.Trim('@')}.png";
                     Image image = Bitmap.FromFile(SymbolImage);
-                    float sym_x = drawing.MeasureString(line, font).Width;
+                    float sym_x = drawing.MeasureString(line, font, width).Width;
                     float sym_y = lineheight*lines.Count; //this needs to be the top left corner
                     float sym_height = sym_size;
                     float sym_width = sym_size;
@@ -115,16 +117,19 @@ namespace CardMaker
                 {
                     tempLine = line + (string.IsNullOrEmpty(line) ? "" : " ") + word;
                 }
-                float tempHeight = drawing.MeasureString(tempLine, font).Width;
+                Console.WriteLine("current line height");
+                Console.WriteLine(drawing.MeasureString(tempLine, font, width));
+                float tempHeight = drawing.MeasureString(tempLine, font, width).Height;
 
-                if (tempHeight >= lineheight)
-                {
-                    line = tempLine;
-                }
-                else
+                if (tempHeight > lineheight)
                 {
                     lines.Add(line);
                     line = word;
+                    
+                }
+                else
+                {
+                    line = tempLine;
                 }
             }
 
@@ -135,16 +140,25 @@ namespace CardMaker
             // here we need to work out from the string format, our list of symbollayers what the offset is for drawing our string?
             //if we're centering
             string newstring = "";
-            foreach (string entry in lines) newstring = newstring + entry;
-            float offsetheight = drawing.MeasureString(newstring, font, width,format).Height-
+            Console.WriteLine(lines.Count);
+            foreach (string entry in lines)
+            {
+                Console.WriteLine("line with format and without");
+                Console.WriteLine(drawing.MeasureString(newstring, font, width, format).Height);
+                Console.WriteLine(drawing.MeasureString(newstring, font, width).Height);
+                newstring = newstring + " " + entry;
+            }
+                float offsetheight = drawing.MeasureString(newstring, font, width,format).Height-
                 drawing.MeasureString(newstring, font).Height;
-            float offsetwidth = drawing.MeasureString(newstring, font, width, format).Width-
+                float offsetwidth = drawing.MeasureString(newstring, font, width, format).Width-
                 drawing.MeasureString(newstring, font).Width;
        
             foreach (Symbol symbol in Symbols)
 			{
-                symbol.Y = symbol.Y + offsetheight;
-                symbol.X = symbol.X + offsetwidth;
+                symbol.Y = symbol.Y + offsetheight +(float)3.33;
+                //symbol.X = symbol.X + offsetwidth;
+                Console.WriteLine(symbol.Y);
+                Console.WriteLine(symbol.X);
                 DrawSymbol(symbol, drawing);
 			}
             return newstring;

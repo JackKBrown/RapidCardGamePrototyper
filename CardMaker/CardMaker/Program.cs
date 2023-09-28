@@ -23,11 +23,13 @@ namespace CardMaker
             string CardAbility = "Swap the locations of 2 Rondel Tiles @babytyranodon , keeping players on the same Tile.";
 
             layers.Add(cd.CreateTextLayer(0, 0, 600, 300, CardAbility, abilityFont, Center)); //cardability
-            
+            //cd.getlnheihgt(abilityFont);
 
             Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, 600, 300);
             string filelocation = @"Testcards/" + "test" + ".png";
             bmap.Save(filelocation, System.Drawing.Imaging.ImageFormat.Png);
+            Console.WriteLine("Finished, press enter to exit...");
+            Console.ReadLine();
 
         }
         static void Main2(string[] args)

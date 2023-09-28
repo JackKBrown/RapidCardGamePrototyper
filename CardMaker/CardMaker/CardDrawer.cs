@@ -165,6 +165,114 @@ namespace CardMaker
 
         }
 
+        private Layer DrawSymbString(int x, int y, int width, int height, string text, Font font, Graphics drawing, bool centreX, bool centreY)
+        {
+            List<List<Image>> splitText = new List<List<Image>>();
+            string[] words = text.Split(' ');
+            List<Image> currentLine = new List<Image>();
+            float currentWidth = 0;
+            SizeF spaceSZ = drawing.MeasureString(" ", font);
+            string lineBuffer = "";
+
+            List<string> lines = new List<string>();
+            List<Symbol> Symbols = new List<Symbol>();
+            string line = "";
+            SizeF buffer_sz = drawing.MeasureString(SYMBOL_BUFFER, font);// there is a string format option for this?
+            //potentially if there is a center x option set I can check for that to find the correct width for the symbol?
+            Console.WriteLine(buffer_sz);
+            float lineheight = buffer_sz.Height;
+            float sym_size = Math.Min(buffer_sz.Height, buffer_sz.Width);
+            foreach (string word in words)
+            {
+                string currentword = word; // create a duplicate so we can edit the contents of the word
+                //check if word is actually a symbol
+                if (word[0] == '@')
+                {
+                    //convert current line buffer into an image
+
+                    //do symbol things
+                    string SymbolImage = $"Img/{word.Trim('@')}.png";
+                    Image image = Bitmap.FromFile(SymbolImage);
+                }
+                //create a temp string
+                string templine = lineBuffer + (string.IsNullOrEmpty(line) ? "" : " ") + word;
+                //drawing.MeasureString(word, font).Width();
+                string tempLine = "";
+                if (word[0] == '@')
+                {
+                    string SymbolImage = $"Img/{word.Trim('@')}.png";
+                    Image image = Bitmap.FromFile(SymbolImage);
+                    float sym_x = drawing.MeasureString(line, font, width).Width;
+                    float sym_y = lineheight * lines.Count; //this needs to be the top left corner
+                    float sym_height = sym_size;
+                    float sym_width = sym_size;
+                    Symbol symbol = new Symbol(sym_x, sym_y, sym_width, sym_height, image);
+                    Symbols.Add(symbol);
+                    //TODO extract image and run draw symbol
+                    // need to check if it on the new line or not?
+                    //DrawSymbol();
+                    tempLine = line + (string.IsNullOrEmpty(line) ? "" : " ") + SYMBOL_BUFFER;
+                }
+                else
+                {
+                    tempLine = line + (string.IsNullOrEmpty(line) ? "" : " ") + word;
+                }
+                Console.WriteLine("current line height");
+                Console.WriteLine(drawing.MeasureString(tempLine, font, width));
+                float tempHeight = drawing.MeasureString(tempLine, font, width).Height;
+
+                if (tempHeight > lineheight)
+                {
+                    lines.Add(line);
+                    line = word;
+
+                }
+                else
+                {
+                    line = tempLine;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(line))
+            {
+                lines.Add(line);
+            }
+            // here we need to work out from the string format, our list of symbollayers what the offset is for drawing our string?
+            //if we're centering
+            string newstring = "";
+            Console.WriteLine(lines.Count);
+            foreach (string entry in lines)
+            {
+                Console.WriteLine("line with format and without");
+                Console.WriteLine(drawing.MeasureString(newstring, font, width).Height);
+                Console.WriteLine(drawing.MeasureString(newstring, font, width).Height);
+                newstring = newstring + " " + entry;
+            }
+            float offsetheight = drawing.MeasureString(newstring, font, width).Height -
+            drawing.MeasureString(newstring, font).Height;
+            float offsetwidth = drawing.MeasureString(newstring, font, width).Width -
+            drawing.MeasureString(newstring, font).Width;
+
+            
+            Image img = new Bitmap(width, height);
+            Layer layer = new Layer(x, y, width, height, img);
+            return layer;
+
+        }
+
+        private Image DrawTextChunk(int width, int height, string text, Font font)
+        {
+            RectangleF layoutRect = new RectangleF(0, 0, width, height);
+            Brush BlackBrush = new SolidBrush(Color.Black);
+            Image img = new Bitmap(width, height);
+            Graphics drawing = Graphics.FromImage(img);
+            drawing.DrawString(text, font, BlackBrush, layoutRect);
+            drawing.Save();
+            BlackBrush.Dispose();
+            drawing.Dispose();
+            return img;
+        }
+
         private void DrawSymbol(Symbol symbol, Graphics drawing)
         {
             Bitmap bmap = new Bitmap(symbol.Image);
@@ -257,7 +365,6 @@ namespace CardMaker
     public class Symbol
     {
         //position of the layer on the final card
-        public string Name;
         public float X;
         public float Y;
         public float Width;

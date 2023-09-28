@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 namespace CardMaker
@@ -10,6 +11,26 @@ namespace CardMaker
         public static string RondelCardOut = @"RondelTiles/";
         public static string MonsterCardOut = @"MonsterCards/";
         static void Main(string[] args)
+        {
+            StringFormat Center = new StringFormat();
+            Center.Alignment = StringAlignment.Center;
+            Center.LineAlignment = StringAlignment.Center;
+            StringFormat Right = new StringFormat();
+            Right.LineAlignment = StringAlignment.Center;
+            List<Layer> layers = new List<Layer>();
+            CardDrawer cd = CardDrawer.Instance();
+            Font abilityFont = cd.mediumFont;
+            string CardAbility = "Swap the locations of 2 Rondel Tiles @babytyranodon , keeping players on the same Tile.";
+
+            layers.Add(cd.CreateTextLayer(0, 0, 600, 300, CardAbility, abilityFont, Center)); //cardability
+            
+
+            Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, 600, 300);
+            string filelocation = @"Testcards/" + "test" + ".png";
+            bmap.Save(filelocation, System.Drawing.Imaging.ImageFormat.Png);
+
+        }
+        static void Main2(string[] args)
         {
             string ActionCardPath = null;
             string RondelCardPath = null;

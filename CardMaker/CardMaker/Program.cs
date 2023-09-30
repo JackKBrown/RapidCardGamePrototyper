@@ -10,7 +10,7 @@ namespace CardMaker
         public static string ActionCardOut = @"ActionCards/";
         public static string RondelCardOut = @"RondelTiles/";
         public static string MonsterCardOut = @"MonsterCards/";
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             StringFormat Center = new StringFormat();
             Center.Alignment = StringAlignment.Center;
@@ -32,7 +32,7 @@ namespace CardMaker
             Console.ReadLine();
 
         }
-        static void Main2(string[] args)
+        static void Main(string[] args)
         {
             string ActionCardPath = null;
             string RondelCardPath = null;

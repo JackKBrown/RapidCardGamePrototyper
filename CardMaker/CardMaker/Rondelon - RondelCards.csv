@@ -1,2 +1,9 @@
 Rondel ID,Rondel Name,Rondel Type,Effect
-1,Bank - Invest, Bank, +1 coin
+1,Bank - Invest,Bank,1 Coin
+2,Bank - Divest,Bank,2 Coin
+3,Notice Board - Recruit,Notice Board,3 Coin
+4,Notice Board - Conscript,Notice Board,4 Coin
+5,Tavern - The Crooks Nook,Tavern,5 Coin
+6,Tavern - The Wobbly Stool,Tavern,6 Coin
+7,Lookout Tower - Telescope,Lookout Tower,7 Coin
+8,Lookout Tower - Scan,Lookout Tower,8 Coin

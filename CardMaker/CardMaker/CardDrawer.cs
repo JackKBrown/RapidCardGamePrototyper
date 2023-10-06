@@ -104,6 +104,8 @@ namespace CardMaker
             SizeF buffer_sz = drawing.MeasureString(SYMBOL_BUFFER, font);// there is a string format option for this?
             float lineheight = (float)Math.Ceiling(getlnheight(font));
             Image currentLine = new Bitmap(width, (int)Math.Ceiling(lineheight));
+            SizeF puncSize = drawing.MeasureString(".", font);
+            char[] punctuation = { '.', ',' };
             
             //potentially if there is a center x option set I can check for that to find the correct width for the symbol?
             Console.WriteLine(buffer_sz);
@@ -118,11 +120,30 @@ namespace CardMaker
                     //convert current line buffer into an image
 
                     //do symbol things
-                    string SymbolImage = $"Img/{word.Trim('@')}.png";
+                    string SymbolImage = $"Img/{word.Trim('@').TrimEnd('.').TrimEnd(',')}.png";
                     Bitmap original = (Bitmap)Image.FromFile(SymbolImage);
                     yPos = (float)(lineheight * 0.1);
                     word_image = new Bitmap(original, new Size((int)(lineheight * 0.8), (int)(lineheight * 0.8)));
-
+                    int punctuationind = Array.IndexOf(punctuation, word[word.Length-1]);
+                    if (punctuationind>0)
+                    {
+                        //TODO put in the line positioning here and add an else so it positions the y pos in here as well
+                        SizeF wordSZ = drawing.MeasureString(word[word.Length - 1].ToString(), font);
+                        Image punc_image = DrawTextChunk((int)Math.Ceiling(wordSZ.Width),
+                            (int)Math.Ceiling(wordSZ.Height), word[word.Length - 1].ToString(), font);
+                        
+                        Image subline = new Bitmap(punc_image.Width+word_image.Width, (int)Math.Ceiling(lineheight));
+                        using (var g = Graphics.FromImage(subline))
+                        {
+                            Bitmap bmap = new Bitmap(word_image);
+                            Bitmap pmap = new Bitmap(punc_image);
+                            g.DrawImage(bmap, 0, yPos, word_image.Width, word_image.Height);
+                            g.DrawImage(pmap, word_image.Width, 0, punc_image.Width, punc_image.Height);
+                        }
+                        word_image = subline;
+                        yPos = 0;
+                    }
+                    
                 }
                 else
                 {
@@ -130,7 +151,6 @@ namespace CardMaker
                     SizeF wordSZ = drawing.MeasureString(word, font);
                     word_image = DrawTextChunk((int)Math.Ceiling(wordSZ.Width),
                         (int)Math.Ceiling(wordSZ.Height), word, font);
-					word_image.Save(@"testcards/" + word + ".png");
 				}
                 
                 float tempcursor = cursor + spaceSZ.Width + word_image.Width;

@@ -20,8 +20,6 @@ namespace CardMaker
 		[Name("Effect")]
 		public string Effect { get; set; }
 
-		public string CardImage = @"Img/BankRondel.png";
-
 		// constants
 		public static readonly int CardHeight = 1000;
 		public static readonly int CardWidth = 1000;
@@ -47,8 +45,9 @@ namespace CardMaker
 			StringFormat NoWrap = new StringFormat();
 			List<Layer> layers = new List<Layer>();
 			CardDrawer cd = CardDrawer.Instance();
+            string CardImage = $"Img/{RondelType.Replace(" ", "").ToLower()}.png";
 
-			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, 0, 0, CardImage));//card image
+            layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, CardWidth, CardHeight, CardImage));//card image
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, RondelName, cd.LargeFont, NoWrap)); //cardname
 
 			if (!string.IsNullOrEmpty(Effect))

@@ -62,9 +62,10 @@ namespace CardMaker
 			List<Layer> backLayers = new List<Layer>();
 			CardDrawer cd = CardDrawer.Instance();
 			string CardImage = $"Img/{MonsterName.Replace(" ", "").ToLower()}.png";
-			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, CardImageWidth, CardImageHeight, CardImage));//card image
-			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, MonsterTemplate)); // template
-			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, MonsterName, cd.LargeFont, NoWrap)); //cardname
+			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, CardImage));//card image
+            layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, CardImageWidth, CardImageHeight, CardImage));//card image
+            //layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, MonsterTemplate)); // template
+            layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, MonsterName, cd.LargeFont, NoWrap)); //cardname
 			//layers.Add(cd.CreateTextLayer(CBoxX, CBoxY, CBoxWidth, CBoxHeight, MaxCards, cd.BoxFont, NoWrap)); //MaxCards this isn't on the front of the card
 			layers.Add(cd.CreateTextLayer(HPBoxX, HPBoxY, HPBoxWidth, HPBoxHeight, HitPoints, cd.BoxFont, NoWrap)); //HP
 

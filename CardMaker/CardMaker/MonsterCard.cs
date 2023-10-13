@@ -26,10 +26,10 @@ namespace CardMaker
 		public static readonly int CardHeight = 750;
 		public static readonly int CardWidth = 1050;
 
-		public readonly int CardImageX = (int)(0.023 * CardWidth);
-		public readonly int CardImageY = (int)(0.16 * CardHeight);
-		public readonly int CardImageWidth = (int)(0.57 * CardWidth);
-		public readonly int CardImageHeight = (int)(0.8 * CardHeight);
+		public readonly int CardImageX = (int)(0.01 * CardWidth);
+		public readonly int CardImageY = (int)(0.01 * CardHeight);
+		public readonly int CardImageWidth = (int)(0.98 * CardWidth);
+		public readonly int CardImageHeight = (int)(0.98 * CardHeight);
 
 		public readonly int NameBoxX = (int)(0.05 * CardWidth);
 		public readonly int NameBoxY = (int)(0.05 * CardHeight);
@@ -39,22 +39,30 @@ namespace CardMaker
 		public readonly int MBoxX = (int)(0.5 * CardWidth);
 		public readonly int MBoxY = (int)(0.5 * CardHeight);
 		public readonly int MBoxWidth = (int)(0.1 * CardWidth);
-		public readonly int MBoxHeight = (int)(0.1 * CardHeight);
+		public readonly int MBoxHeight = (int)(0.1 * CardWidth);//needs to be a square
 
-		public readonly int HPBoxX = (int)(0.75 * CardWidth);
-		public readonly int HPBoxY = (int)(0.21 * CardHeight);
+        public readonly int HPBoxX = (int)(0.75 * CardWidth);
+		public readonly int HPBoxY = (int)(0.35 * CardHeight);
 		public readonly int HPBoxWidth = (int)(0.1 * CardWidth);
-		public readonly int HPBoxHeight = (int)(0.1 * CardHeight);
+		public readonly int HPBoxHeight = (int)(0.1 * CardWidth);//needs to be a square
 
-		public readonly int CABoxX = (int)(0.62 * CardWidth);
+        public readonly int CABoxX = (int)(0.62 * CardWidth);
 		public readonly int CABoxY = (int)(0.53 * CardHeight);
 		public readonly int CABoxWidth = (int)(0.33 * CardWidth);
 		public readonly int CABoxHeight = (int)(0.33 * CardHeight);
 
-		public readonly string MonsterTemplate = @"Img/MonsterTemplateFront.png";
-		public readonly string MonsterTemplateBack = @"Img/MonsterTemplateBack.png";
+        public readonly int CAscrollX = (int)(0.70 * CardWidth);
+        public readonly int CAscrollY = (int)(0 * CardHeight);
+        public readonly int CAscrollWidth = (int)(0.25 * CardWidth);
+        public readonly int CAscrollHeight = (int)(0.49 * CardHeight);
 
-		public override void DrawCard(string outputDirectory)
+        public readonly string MonsterTemplate = @"Img/MonsterTemplateFront.png";
+		public readonly string MonsterTemplateBack = @"Img/MonsterTemplateBack.png";
+		public readonly string ScrollImage = @"Img/parchment.png";
+		public readonly string HPSymbol = @"Img/hp.png";
+
+
+        public override void DrawCard(string outputDirectory)
 		{
 			StringFormat Wrap = new StringFormat();
 			StringFormat NoWrap = new StringFormat();
@@ -62,14 +70,15 @@ namespace CardMaker
 			List<Layer> backLayers = new List<Layer>();
 			CardDrawer cd = CardDrawer.Instance();
 			string CardImage = $"Img/{MonsterName.Replace(" ", "").ToLower()}.png";
-			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, CardImage));//card image
-            layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, CardImageWidth, CardImageHeight, CardImage));//card image
-            //layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, MonsterTemplate)); // template
+			layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, CardImageWidth, CardImageHeight, CardImage));//card image
+            layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, MonsterTemplate)); // template
+            //layers.Add(cd.CreateLayerFromFile(CAscrollX, CAscrollY, CAscrollWidth, CAscrollHeight, ScrollImage));//card scroll
             layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, MonsterName, cd.LargeFont, NoWrap)); //cardname
 			//layers.Add(cd.CreateTextLayer(CBoxX, CBoxY, CBoxWidth, CBoxHeight, MaxCards, cd.BoxFont, NoWrap)); //MaxCards this isn't on the front of the card
-			layers.Add(cd.CreateTextLayer(HPBoxX, HPBoxY, HPBoxWidth, HPBoxHeight, HitPoints, cd.BoxFont, NoWrap)); //HP
+			//layers.Add(cd.CreateTextLayer(HPBoxX, HPBoxY, HPBoxWidth, HPBoxHeight, HitPoints, cd.BoxFont, NoWrap)); //HP
+            //layers.Add(cd.CreateLayerFromFile(HPBoxX, HPBoxY, HPBoxWidth, HPBoxHeight, HPSymbol)); //HPsym
 
-			if (!string.IsNullOrEmpty(Effect))
+            if (!string.IsNullOrEmpty(Effect))
 			{
 				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, Effect, cd.mediumFont, Wrap)); //cardability
 			}

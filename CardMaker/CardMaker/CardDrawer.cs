@@ -151,7 +151,6 @@ namespace CardMaker
                 {
                     if (word[1] == 'n')
                     {
-                        currentLine.Save(@"testcards/line" + lines.Count + ".png");
                         lines.Add((currentLine, cursor));
                         currentLine = new Bitmap(width, (int)Math.Ceiling(lineheight));
                         cursor = 0;
@@ -169,7 +168,6 @@ namespace CardMaker
                 float tempcursor = cursor + spaceSZ.Width + word_image.Width;
                 if (tempcursor > width)//line has overflowed
                 {
-                    currentLine.Save(@"testcards/line" + lines.Count + ".png");
                     lines.Add((currentLine, cursor));
                     currentLine = new Bitmap(width, (int)Math.Ceiling(lineheight));
                     cursor = 0;
@@ -181,7 +179,6 @@ namespace CardMaker
                 }
                 cursor = cursor + (cursor == 0 ? 0 : spaceSZ.Width) + word_image.Width;
             }
-            currentLine.Save(@"testcards/line" + lines.Count + ".png");
             lines.Add((currentLine, cursor));
             
             // here we need to work out from the string format, our list of symbollayers what the offset is for drawing our string?
@@ -193,20 +190,17 @@ namespace CardMaker
             {
 				cursorheight = ((height - (lineheight * lines.Count)) / 2);
 				//cursorheight = ((height - (lineheight * lines.Count)) / 2);
-			}    
-            foreach ((Image lnImage, float lnCursor) in lines)
+			}
+            using (var g = Graphics.FromImage(img))
             {
-                using (var g = Graphics.FromImage(img))
+                foreach ((Image lnImage, float lnCursor) in lines)
                 {
-                    lnImage.Save(@"testcards/line" + Guid.NewGuid() + ".png");
                     Bitmap bmap = new Bitmap(lnImage);
                     float xOffset = 0;
                     if (centreX) xOffset = (width - lnCursor) / 2;
                     g.DrawImage(bmap, xOffset, cursorheight, lnImage.Width, lnImage.Height);
-                    g.Save();
                     cursorheight += lnImage.Height;
                 }
-                img.Save(@"testcards/lines" + Guid.NewGuid() + ".png");
             }
 
             Layer layer = new Layer(x, y, width, height, img);

@@ -59,6 +59,7 @@ namespace CardMaker
 			}
 
 			Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, CardWidth, CardHeight);
+			layers=new List<Layer>();
 			string filelocation = outputDirectory + RondelName +"_"+ Side + ".png";
 			bmap.Save(filelocation, System.Drawing.Imaging.ImageFormat.Png);
 		}

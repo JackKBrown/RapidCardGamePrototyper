@@ -65,7 +65,7 @@ namespace CardMaker
 
             //search string for symbol tags till none are found
             string outtext = "";
-            if(text.Contains('@'))
+            if(text.Contains('@') || text.Contains("\\n"))
             {
                 return DrawSymbString(x,y,width,height, text, font, drawing, true,true);
             }
@@ -112,6 +112,8 @@ namespace CardMaker
 
             foreach (string word in words)
             {
+                if (word.Length == 0)
+                { continue; }
                 Image word_image = new Bitmap(1, 1);
                 //check if word is actually a symbol
                 float yPos = 0;
@@ -145,6 +147,17 @@ namespace CardMaker
                     }
                     
                 }
+                else if (word[0] == '\\')
+                {
+                    if (word[1] == 'n')
+                    {
+                        currentLine.Save(@"testcards/line" + lines.Count + ".png");
+                        lines.Add((currentLine, cursor));
+                        currentLine = new Bitmap(width, (int)Math.Ceiling(lineheight));
+                        cursor = 0;
+                        continue;
+                    }
+                }
                 else
                 {
                     //word is word
@@ -158,7 +171,7 @@ namespace CardMaker
                 {
                     currentLine.Save(@"testcards/line" + lines.Count + ".png");
                     lines.Add((currentLine, cursor));
-                    currentLine = new Bitmap(width, height);
+                    currentLine = new Bitmap(width, (int)Math.Ceiling(lineheight));
                     cursor = 0;
                 }
                 using (var g = Graphics.FromImage(currentLine))
@@ -168,6 +181,7 @@ namespace CardMaker
                 }
                 cursor = cursor + (cursor == 0 ? 0 : spaceSZ.Width) + word_image.Width;
             }
+            currentLine.Save(@"testcards/line" + lines.Count + ".png");
             lines.Add((currentLine, cursor));
             
             // here we need to work out from the string format, our list of symbollayers what the offset is for drawing our string?
@@ -177,20 +191,22 @@ namespace CardMaker
             float cursorheight = 0;
             if (centreY)
             {
-				cursorheight = ((height - (lineheight * lines.Count)) / 2)-(lineheight/2);
+				cursorheight = ((height - (lineheight * lines.Count)) / 2);
 				//cursorheight = ((height - (lineheight * lines.Count)) / 2);
-			}
-            using (var g = Graphics.FromImage(img))
+			}    
+            foreach ((Image lnImage, float lnCursor) in lines)
             {
-                
-                foreach ((Image lnImage, float lnCursor) in lines)
+                using (var g = Graphics.FromImage(img))
                 {
+                    lnImage.Save(@"testcards/line" + Guid.NewGuid() + ".png");
                     Bitmap bmap = new Bitmap(lnImage);
                     float xOffset = 0;
                     if (centreX) xOffset = (width - lnCursor) / 2;
                     g.DrawImage(bmap, xOffset, cursorheight, lnImage.Width, lnImage.Height);
+                    g.Save();
                     cursorheight += lnImage.Height;
                 }
+                img.Save(@"testcards/lines" + Guid.NewGuid() + ".png");
             }
 
             Layer layer = new Layer(x, y, width, height, img);

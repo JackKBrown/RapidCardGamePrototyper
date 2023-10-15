@@ -1,24 +1,24 @@
 Monster ID,Monster Name,Max Cards,Hit Points,Effect
 1,Slime King,5,15,-
-2,Schemist,5,14,"Requires: 1 ""Guardsman"""
-3,Doppleganger,5,16,(action cards) present multiple times have +1 (Power)
-4,Goblin Boss,5,16,(cait) have +2 (Power)
+2,Schemist,5,14,"Requires: 1 ""Guardsman"" in the Battle to Kill"
+3,Doppleganger,5,16,@actioncard present multiple times have +1 @power
+4,Goblin Boss,5,16,@caiticon have +2 @power
 5,Baby Tyranodon,6,17,-
-6,Orc Boss,6,17,(Orc) have 0 (Power)
-7,Jackalope,6,16,"(A cards) on this (Q) have (Power) = (movement), or 2 if not specified"
-8,Black Slime,6,-,Dies if total (Power) is <18. Survives if total (power) =>18
-9,Cyclops,6,19,"(Action Cards) with ""i"" in their Name have +1 (Power)"
+6,Orc Boss,6,17,@orcicon have 0 @power
+7,Jackalope,6,16,"All @actioncard have @power Equal to it's @move, or 2 if not specified"
+8,Black Slime,6,-,Dies if total @power is less than 18. Survives if total @power is 18 or more
+9,Cyclops,6,19,"@actioncard with ""i"" in their Name have +1 @power"
 10,Skeleton,7,21,-
-11,Adjudicator,7,19,(rouge) have -2 (Power)
-12,Golem,7,19,(wizard) have -2 (Power)
-13,King Donkey,7,23,Dies: Everyone Gains 1 (Action Card) from the top of the (Action) Deck
-14,Braggart,7,12,Treat this (quest) as if it has (capacity) 4
+11,Adjudicator,7,19,"@rogueicon have -2 @power , but not less than 0"
+12,Golem,7,19,"@wizardicon have -2 @power , but not less than 0"
+13,King Donkey,7,23,"If Killed, each Player Gains 1 @actioncard"
+14,Braggart,7,12,Resolve this Quest as if it has @capacity 4
 15,Giant,8,24,-
-16,Demiliche,8,26,Survives: Each player trashes an (Action card) in their (discard) with the lowest (Power)
-17,Tyranodon,8,33,HP is 23 if there are 3 or more (Action cards) with =<2 (Power)
-18,Rioter,8,23,Flip all (Rondel Tiles)
-19,Skeleton Knight,8,25,Add a random unplayed (rondal tile) Clockwise of the (Rondel Tile) the Leader is on
+16,Demiliche,8,26,"If Survives, each Player Removes 1 @actioncard in their Discard Pile with the lowest @power from the game"
+17,Tyranodon,8,33,Resolve this Quest as if it has 23 @hp if there are 3 or more @actioncard with 2 or less @power in the battle
+18,Rioter,8,23,Flip all @rondeltile
+19,Skeleton Knight,8,25,Add a random unplayed @rondeltile Clockwise of the @rondeltile the Leader is on
 20,Lord Octillion ,9,27,-
-21,Dragon,9,30,(Knight) (action cards) have +2 (Power)
-22,Chaos,9,19,"Requires: at least 1 (Knight), (Wizard), and (Rogue) to kill"
-23,Colossus,U,30,"When resolving the (Quest), use all (Action cards) on (Quest)"
+21,Dragon,9,30,@knighticon have +2 @power
+22,Chaos,9,19,"Requires: A @knighticon, @wizardicon, and @rogueicon in the Battle to Kill"
+23,Colossus,U,30,"When resolving the Quest, use all @actioncard on the Quest"

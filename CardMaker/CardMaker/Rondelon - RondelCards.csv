@@ -1,9 +1,17 @@
-Rondel ID,Rondel Name,Rondel Type,Effect
-1,Bank - Invest,Bank,1 Coin
-2,Bank - Divest,Bank,2 Coin
-3,Notice Board - Recruit,Notice Board,3 Coin
-4,Notice Board - Conscript,Notice Board,4 Coin
-5,Tavern - The Crooks Nook,Tavern,5 Coin
-6,Tavern - The Wobbly Stool,Tavern,6 Coin
-7,Lookout Tower - Telescope,Lookout Tower,7 Coin
-8,Lookout Tower - Scan,Lookout Tower,8 Coin
+Rondel ID,Tile Side,Rondel Type,Rondel Name,Effect
+1,A,Bank,Invest,Gain 2 @coin
+2,A,Bank,Divest,"Gain 4 @coin, Give 2 @coin"
+3,A,Notice Board,Recruit,Pay 3 @coin : Send 1 @actioncard on the Quest
+4,A,Notice Board,Conscript,Pay 1 @coin : Choose 1 other Player with 2+ @actioncard in hand - They send an @actioncard on the Quest
+5,A,Tavern,The Crooks Nook,"Pay 3 @coin : Draw 3 (Action cards). Keep 1, Return the rest to the bottom."
+6,A,Tavern,The Wobbly Stool,"Pay 5 @coin : Draw 3 Action cards. Keep 1, Give 1, Return the last to the bottom"
+7,A,Lookout Tower,Telescope,Pay 5 @coin : Secretly look at the @monster
+8,A,Lookout Tower,Scan,Pay 2 @coin : Secretly look at half the @actioncard on the Quest rounded down.
+9,B,Bank,Invest,Gain 6 @coin - Hand Size
+10,B,Bank,Divest,Gain 3 @coin or Gain 5 @coin and Give 3 @coin to another Player and 2 @coin to a different Player.
+11,B,Notice Board,Recruit,Give 2 other player with 2+ @actioncard in hand 1 @coin from your supply - they each place an action card on the Quest
+12,B,Notice Board,Conscript,Give 1 player an @actioncard. They place an action card on the Quest
+13,B,Tavern,The Crooks Nook,"Pay X @coin : Draw X @actioncard, Take 1. Return the others to the bottom."
+14,B,Tavern,The Wobbly Stool,Pay 2 @coin : Draw and Take 2 @actioncard. Return any 1 none @startingcard @actioncard from your hand to the bottom.
+15,B,Lookout Tower,Telescope,Pay 3 @coin : Look at the following Quest's @monster
+16,B,Lookout Tower,Scan,Pay 3 @coin : Choose 1 other Player. They look at the @monster

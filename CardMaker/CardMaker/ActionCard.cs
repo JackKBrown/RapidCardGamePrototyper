@@ -39,10 +39,15 @@ namespace CardMaker
 		public readonly int CardImageWidth = (int)(0.94 * CardWidth);
 		public readonly int CardImageHeight = (int)(0.45 * CardWidth);
 
-		public readonly int NameBoxX = (int)(0.06 * CardWidth);
-		public readonly int NameBoxY = (int)(0.035 * CardHeight);
+		public readonly int NameBoxX = (int)(0.15 * CardWidth);
+		public readonly int NameBoxY = (int)(0.03 * CardHeight);
 		public readonly int NameBoxWidth = (int)(0.7 * CardWidth);
-		public readonly int NameBoxHeight = (int)(0.07 * CardHeight);
+		public readonly int NameBoxHeight = (int)(0.06 * CardHeight);
+		
+		public readonly int ClassBoxX = (int)(0.78 * CardWidth);
+		public readonly int ClassBoxY = (int)(0.03 * CardHeight);
+		public readonly int ClassBoxWidth = (int)(0.08 * CardWidth);
+		public readonly int ClassBoxHeight = (int)(0.06 * CardHeight);
 
 		public readonly int MBoxX = (int)(0.02 * CardWidth);
 		public readonly int MBoxY = (int)(0.135 * CardHeight);
@@ -54,10 +59,11 @@ namespace CardMaker
 		public readonly int ABoxWidth = (int)(0.15 * CardWidth);
 		public readonly int ABoxHeight = (int)(0.115 * CardHeight);
 
-		public readonly int CABoxX = (int)(0.07 * CardWidth);
-		public readonly int CABoxY = (int)(0.605 * CardHeight);
-		public readonly int CABoxWidth = (int)(0.87 * CardWidth);
-		public readonly int CABoxHeight = (int)(0.15 * CardHeight);
+		public readonly int CABoxX = (int)(0.13 * CardWidth);
+		public readonly int CABoxY = (int)(0.59 * CardHeight);
+		public readonly int CABoxWidth = (int)(0.72 * CardWidth);
+		public readonly int CABoxHeight = (int)(0.142 * CardHeight);
+		//public readonly int CABoxHeight = (int)(0.40 * CardHeight);
 
 		public readonly int AABoxX = (int)(0.07 * CardWidth);
 		public readonly int AABoxY = (int)(0.805 * CardHeight);
@@ -70,11 +76,8 @@ namespace CardMaker
 		public Font ChooseFont(string text)
         {
 			CardDrawer cd = CardDrawer.Instance();
-			int size = 40;
-			if (text.Length < 30) size = 50;
-			else if (text.Length < 50) size = 40;
-			else if (text.Length < 80) size = 30;
-			else if (text.Length >= 80) size = 20;
+			int size = 30;
+			if (text.Length >= 60) size = 20;
 			Font customFont = new Font(cd.FONT_FILE, size);
 			return customFont;
         }
@@ -95,7 +98,9 @@ namespace CardMaker
 
 			layers.Add(cd.CreateLayerFromFileUniform(CardImageX, CardImageY, CardImageWidth, CardImageHeight, CardImage));//card image
 			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, ActionTemplate)); // template
-			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.LargeFont, Right)); //cardname
+			//string Namebox = ((string.IsNullOrEmpty(CardClass) ? CardName : CardName + " - " + CardClass));
+			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.NameFont, Right)); //cardname
+			layers.Add(cd.CreateTextLayer(ClassBoxX, ClassBoxY, ClassBoxWidth, ClassBoxHeight, CardClass, cd.NameFont, Right)); //cardname
 			
 			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.BoxFont, Center)); //cardmove
 			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.BoxFont, Center)); //cardattack
@@ -121,6 +126,7 @@ namespace CardMaker
 			}
 			
 			Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, CardWidth, CardHeight);
+			layers=new List<Layer>();
 			string filelocation = outputDirectory + CardName + ".png";
 			bmap.Save(filelocation, System.Drawing.Imaging.ImageFormat.Png);
 		}

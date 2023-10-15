@@ -19,6 +19,8 @@ namespace CardMaker
 		public string RondelName { get; set; }
 		[Name("Effect")]
 		public string Effect { get; set; }
+		[Name("Tile Side")]
+		public string Side { get; set; }
 
 		// constants
 		public static readonly int CardHeight = 1000;
@@ -29,34 +31,35 @@ namespace CardMaker
 		//public readonly int CardImageWidth = (int)(0.57 * CardWidth);
 		//public readonly int CardImageHeight = (int)(0.8 * CardHeight);
 
-		public readonly int NameBoxX = (int)(0.3 * CardWidth);
-		public readonly int NameBoxY = (int)(0.05 * CardHeight);
-		public readonly int NameBoxWidth = (int)(0.5 * CardWidth);
-		public readonly int NameBoxHeight = (int)(0.1 * CardHeight);
+		public readonly int NameBoxX = (int)(0.35 * CardWidth);
+		public readonly int NameBoxY = (int)(0.03 * CardHeight);
+		public readonly int NameBoxWidth = (int)(0.28 * CardWidth);
+		public readonly int NameBoxHeight = (int)(0.06 * CardHeight);
 
-		public readonly int CABoxX = (int)(0.62 * CardWidth);
-		public readonly int CABoxY = (int)(0.53 * CardHeight);
-		public readonly int CABoxWidth = (int)(0.33 * CardWidth);
-		public readonly int CABoxHeight = (int)(0.33 * CardHeight);
+		public readonly int CABoxX = (int)(0.22 * CardWidth);
+		public readonly int CABoxY = (int)(0.8 * CardHeight);
+		public readonly int CABoxWidth = (int)(0.55 * CardWidth);
+		public readonly int CABoxHeight = (int)(0.15 * CardHeight);
 
 		public override void DrawCard(string outputDirectory)
 		{
-			StringFormat Wrap = new StringFormat();
-			StringFormat NoWrap = new StringFormat();
-			List<Layer> layers = new List<Layer>();
+            StringFormat Center = new StringFormat();
+            Center.Alignment = StringAlignment.Center;
+            Center.LineAlignment = StringAlignment.Center;
+            List<Layer> layers = new List<Layer>();
 			CardDrawer cd = CardDrawer.Instance();
             string CardImage = $"Img/{RondelType.Replace(" ", "").ToLower()}.png";
 
             layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, CardWidth, CardHeight, CardImage));//card image
-			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, RondelName, cd.LargeFont, NoWrap)); //cardname
+			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, RondelName, cd.LargeFont, Center)); //cardname
 
 			if (!string.IsNullOrEmpty(Effect))
 			{
-				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, Effect, cd.mediumFont, Wrap)); //cardability
+				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, Effect, cd.LargeFont, Center)); //cardability
 			}
 
 			Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, CardWidth, CardHeight);
-			string filelocation = outputDirectory + RondelName + ".png";
+			string filelocation = outputDirectory + RondelName +"_"+ Side + ".png";
 			bmap.Save(filelocation, System.Drawing.Imaging.ImageFormat.Png);
 		}
 

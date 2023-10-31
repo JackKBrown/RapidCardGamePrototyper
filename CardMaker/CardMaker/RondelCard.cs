@@ -33,13 +33,18 @@ namespace CardMaker
 
 		public readonly int NameBoxX = (int)(0.35 * CardWidth);
 		public readonly int NameBoxY = (int)(0.03 * CardHeight);
-		public readonly int NameBoxWidth = (int)(0.28 * CardWidth);
+		public readonly int NameBoxWidth = (int)(0.3 * CardWidth);
 		public readonly int NameBoxHeight = (int)(0.06 * CardHeight);
 
-		public readonly int CABoxX = (int)(0.22 * CardWidth);
+		public readonly int CABoxX = (int)(0.23 * CardWidth);
 		public readonly int CABoxY = (int)(0.8 * CardHeight);
 		public readonly int CABoxWidth = (int)(0.55 * CardWidth);
 		public readonly int CABoxHeight = (int)(0.15 * CardHeight);
+		
+		public readonly int SideBoxX = (int)(0.9 * CardWidth);
+		public readonly int SideBoxY = (int)(0.9 * CardHeight);
+		public readonly int SideBoxWidth = (int)(0.1 * CardWidth);
+		public readonly int SideBoxHeight = (int)(0.1 * CardHeight);
 
 		public override void DrawCard(string outputDirectory)
 		{
@@ -52,6 +57,7 @@ namespace CardMaker
 
             layers.Add(cd.CreateLayerFromFile(CardImageX, CardImageY, CardWidth, CardHeight, CardImage));//card image
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, RondelName, cd.LargeFont, Center)); //cardname
+			layers.Add(cd.CreateTextLayer(SideBoxX, SideBoxY, SideBoxWidth, SideBoxHeight, Side, cd.mediumFont, Center));
 
 			if (!string.IsNullOrEmpty(Effect))
 			{

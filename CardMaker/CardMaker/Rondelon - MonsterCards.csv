@@ -1,24 +1,24 @@
 Monster ID,Monster Name,Max Cards,Hit Points,Effect
-1,Slime King,5,15,-
+1,Slime King,5,15,
 2,Schemist,5,14,"Requires: 1 ""Guardsman"" in the Battle to Kill"
 3,Doppleganger,5,16,@actioncard present multiple times have +1 @power
 4,Goblin Boss,5,16,@caiticon have +2 @power
-5,Baby Tyranodon,6,17,-
+5,Baby Tyranodon,6,17,
 6,Orc Boss,6,17,@orcicon have 0 @power
 7,Jackalope,6,16,"All @actioncard have @power Equal to it's @move, or 2 if not specified"
 8,Black Slime,6,-,Dies if total @power is less than 18. Survives if total @power is 18 or more
 9,Cyclops,6,19,"@actioncard with ""i"" in their Name have +1 @power"
-10,Skeleton,7,21,-
+10,Skeleton,7,21,
 11,Adjudicator,7,19,"@rogueicon have -2 @power , but not less than 0"
 12,Golem,7,19,"@wizardicon have -2 @power , but not less than 0"
 13,King Donkey,7,23,"If Killed, each Player Gains 1 @actioncard"
 14,Braggart,7,12,Resolve this Quest as if it has @capacity 4
-15,Giant,8,24,-
+15,Giant,8,24,
 16,Demiliche,8,26,"If Survives, each Player Removes 1 @actioncard in their Discard Pile with the lowest @power from the game"
 17,Tyranodon,8,33,Resolve this Quest as if it has 23 @hp if there are 3 or more @actioncard with 2 or less @power in the battle
-18,Rioter,8,23,Flip all @rondeltile
+18,Rioter,8,23,Flip all @rondeltile which don't have a player on them
 19,Skeleton Knight,8,25,Add a random unplayed @rondeltile Clockwise of the @rondeltile the Leader is on
-20,Lord Octillion ,9,27,-
+20,Lord Octillion ,9,27,
 21,Dragon,9,30,@knighticon have +2 @power
 22,Chaos,9,19,"Requires: A @knighticon, @wizardicon, and @rogueicon in the Battle to Kill"
-23,Colossus,U,30,"When resolving the Quest, use all @actioncard on the Quest"
+23,Colossus,9,30,"When resolving the Quest, use all @actioncard on the Quest"

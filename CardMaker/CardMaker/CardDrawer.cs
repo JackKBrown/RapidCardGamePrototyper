@@ -18,9 +18,12 @@ namespace CardMaker
         private static string SYMBOL_BUFFER = "      ";
         public string FONT_FILE = "NotoSans-Regular.ttf";
         public Font mediumFont;
+        public Font monsterFont;
         public Font LargeFont;
         public Font NameFont;
         public Font BoxFont;
+        public Font SuperFont;
+        public Font SuperFontU;
 
         public static CardDrawer Instance()
 		{
@@ -31,9 +34,12 @@ namespace CardMaker
 		{
             privateFontCollection.AddFontFile(FONT_FILE);
             mediumFont = new Font(FONT_FILE, 16);
+            monsterFont = new Font(FONT_FILE, 20);
             LargeFont = new Font(FONT_FILE, 22);
             NameFont = new Font(FONT_FILE, 32);
-            BoxFont = new Font(FONT_FILE, 40);
+            BoxFont = new Font(FONT_FILE, 36);
+            SuperFont = new Font(FONT_FILE, 52);
+            SuperFontU = new Font(FONT_FILE, 52, FontStyle.Underline);
     }
 
         public Bitmap MergeLayers(List<Layer> layers, int CardWidth, int CardHeight)
@@ -105,7 +111,7 @@ namespace CardMaker
             float lineheight = (float)Math.Ceiling(getlnheight(font));
             Image currentLine = new Bitmap(width, (int)Math.Ceiling(lineheight));
             SizeF puncSize = drawing.MeasureString(".", font);
-            char[] punctuation = { '.', ',' };
+            char[] punctuation = { '.', ',', ':' };
             
             //potentially if there is a center x option set I can check for that to find the correct width for the symbol?
             Console.WriteLine(buffer_sz);
@@ -122,7 +128,7 @@ namespace CardMaker
                     //convert current line buffer into an image
 
                     //do symbol things
-                    string SymbolImage = $"Img/{word.Trim('@').TrimEnd('.').TrimEnd(',')}.png";
+                    string SymbolImage = $"Img/{word.Trim('@').TrimEnd('.').TrimEnd(',').TrimEnd(':')}.png";
                     Bitmap original = (Bitmap)Image.FromFile(SymbolImage);
                     yPos = (float)(lineheight * 0.1);
                     word_image = new Bitmap(original, new Size((int)(lineheight * 0.8), (int)(lineheight * 0.8)));

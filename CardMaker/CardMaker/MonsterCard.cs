@@ -31,17 +31,17 @@ namespace CardMaker
 		public readonly int CardImageWidth = (int)(0.98 * CardWidth);
 		public readonly int CardImageHeight = (int)(0.98 * CardHeight);
 
-		public readonly int NameBoxX = (int)(0.071 * CardWidth);
+		public readonly int NameBoxX = (int)(0.047 * CardWidth);
 		public readonly int NameBoxY = (int)(0.05 * CardHeight);
-		public readonly int NameBoxWidth = (int)(0.3 * CardWidth);
+		public readonly int NameBoxWidth = (int)(0.228 * CardWidth);
 		public readonly int NameBoxHeight = (int)(0.066 * CardHeight);
 
-		public readonly int MBoxX = (int)(0.84 * CardWidth);
+		public readonly int MBoxX = (int)(0.845 * CardWidth);
 		public readonly int MBoxY = (int)(0.33 * CardHeight);
 		public readonly int MBoxWidth = (int)(0.1 * CardWidth);
 		public readonly int MBoxHeight = (int)(0.1 * CardWidth);//needs to be a square
 
-        public readonly int HPBoxX = (int)(0.74 * CardWidth);
+        public readonly int HPBoxX = (int)(0.735 * CardWidth);
 		public readonly int HPBoxY = (int)(0.33 * CardHeight);
 		public readonly int HPBoxWidth = (int)(0.1 * CardWidth);
 		public readonly int HPBoxHeight = (int)(0.1 * CardWidth);//needs to be a square
@@ -52,10 +52,12 @@ namespace CardMaker
 		public readonly int MBoxBackHeight = (int)(0.1 * CardWidth);//needs to be a square
 
 
-        public readonly int CABoxX = (int)(0.74 * CardWidth);
-		public readonly int CABoxY = (int)(0.066 * CardHeight);
-		public readonly int CABoxWidth = (int)(0.2 * CardWidth);
-		public readonly int CABoxHeight = (int)(0.27 * CardHeight);
+        //public readonly int CABoxX = (int)(0.74 * CardWidth);
+        public readonly int CABoxX = (int)(0.73 * CardWidth);
+		//public readonly int CABoxY = (int)(0.066 * CardHeight);
+		public readonly int CABoxY = (int)(0.04 * CardHeight);
+		public readonly int CABoxWidth = (int)(0.23 * CardWidth);
+		public readonly int CABoxHeight = (int)(0.28 * CardHeight);
 
         public readonly string MonsterTemplate = @"Img/MonsterTemplateFront.png";
 		public readonly string MonsterTemplateBack = @"Img/MonsterTemplateBack.png";
@@ -76,16 +78,16 @@ namespace CardMaker
             layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, MonsterTemplate)); // template
             //layers.Add(cd.CreateLayerFromFile(CAscrollX, CAscrollY, CAscrollWidth, CAscrollHeight, ScrollImage));//card scroll
             layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, MonsterName, cd.LargeFont, Center)); //cardname
-			layers.Add(cd.CreateTextLayer(HPBoxX, HPBoxY, HPBoxWidth, HPBoxHeight, HitPoints, cd.LargeFont,Center));
-			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, MaxCards, cd.LargeFont,Center));
+			layers.Add(cd.CreateTextLayer(HPBoxX, HPBoxY, HPBoxWidth, HPBoxHeight, HitPoints, cd.BoxFont,Center));
+			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, MaxCards, cd.BoxFont,Center));
 
             if (!string.IsNullOrEmpty(Effect))
 			{
-				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, Effect, cd.mediumFont, Center)); //cardability
+				layers.Add(cd.CreateTextLayer(CABoxX, CABoxY, CABoxWidth, CABoxHeight, Effect, cd.monsterFont, Center)); //cardability
 			}
 
 			backLayers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, MonsterTemplateBack)); // template
-			backLayers.Add(cd.CreateTextLayer(MBoxBackX, MBoxBackY, MBoxBackWidth, MBoxBackHeight, MaxCards, cd.BoxFont, Center)); //MaxCards
+			backLayers.Add(cd.CreateTextLayer(MBoxBackX, MBoxBackY, MBoxBackWidth, MBoxBackHeight, MaxCards, cd.SuperFontU, Center)); //MaxCards
 
 
 			Bitmap bmap = CardDrawer.Instance().MergeLayers(layers, CardWidth, CardHeight);

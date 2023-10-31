@@ -44,31 +44,31 @@ namespace CardMaker
 		public readonly int NameBoxWidth = (int)(0.7 * CardWidth);
 		public readonly int NameBoxHeight = (int)(0.06 * CardHeight);
 		
-		public readonly int ClassBoxX = (int)(0.78 * CardWidth);
+		public readonly int ClassBoxX = (int)(0.72 * CardWidth);
 		public readonly int ClassBoxY = (int)(0.03 * CardHeight);
-		public readonly int ClassBoxWidth = (int)(0.08 * CardWidth);
+		public readonly int ClassBoxWidth = (int)(0.16 * CardWidth);
 		public readonly int ClassBoxHeight = (int)(0.06 * CardHeight);
 
-		public readonly int MBoxX = (int)(0.02 * CardWidth);
-		public readonly int MBoxY = (int)(0.135 * CardHeight);
-		public readonly int MBoxWidth = (int)(0.15 * CardWidth);
+		public readonly int MBoxX = (int)(0.013 * CardWidth);
+		public readonly int MBoxY = (int)(0.14 * CardHeight);
+		public readonly int MBoxWidth = (int)(0.175 * CardWidth);
 		public readonly int MBoxHeight = (int)(0.115 * CardHeight);
 
-		public readonly int ABoxX = (int)(0.02 * CardWidth);
+		public readonly int ABoxX = (int)(0.013 * CardWidth);
 		public readonly int ABoxY = (int)(0.265 * CardHeight);
-		public readonly int ABoxWidth = (int)(0.15 * CardWidth);
+		public readonly int ABoxWidth = (int)(0.175 * CardWidth);
 		public readonly int ABoxHeight = (int)(0.115 * CardHeight);
 
-		public readonly int CABoxX = (int)(0.13 * CardWidth);
+		public readonly int CABoxX = (int)(0.14 * CardWidth);
 		public readonly int CABoxY = (int)(0.59 * CardHeight);
 		public readonly int CABoxWidth = (int)(0.72 * CardWidth);
 		public readonly int CABoxHeight = (int)(0.142 * CardHeight);
 		//public readonly int CABoxHeight = (int)(0.40 * CardHeight);
 
-		public readonly int AABoxX = (int)(0.07 * CardWidth);
+		public readonly int AABoxX = (int)(0.133 * CardWidth);
 		public readonly int AABoxY = (int)(0.805 * CardHeight);
-		public readonly int AABoxWidth = (int)(0.87 * CardWidth);
-		public readonly int AABoxHeight = (int)(0.15 * CardHeight);
+		public readonly int AABoxWidth = (int)(0.72 * CardWidth);
+		public readonly int AABoxHeight = (int)(0.142 * CardHeight);
 
 
 		public readonly string ActionTemplate = @"Img/RondelonTemplate.png";
@@ -100,10 +100,10 @@ namespace CardMaker
 			layers.Add(cd.CreateLayerFromFile(0, 0, CardWidth, CardHeight, ActionTemplate)); // template
 			//string Namebox = ((string.IsNullOrEmpty(CardClass) ? CardName : CardName + " - " + CardClass));
 			layers.Add(cd.CreateTextLayer(NameBoxX, NameBoxY, NameBoxWidth, NameBoxHeight, CardName, cd.NameFont, Right)); //cardname
-			layers.Add(cd.CreateTextLayer(ClassBoxX, ClassBoxY, ClassBoxWidth, ClassBoxHeight, CardClass, cd.NameFont, Right)); //cardname
+			layers.Add(cd.CreateTextLayer(ClassBoxX, ClassBoxY, ClassBoxWidth, ClassBoxHeight, CardClass, cd.BoxFont, Right)); //cardname
 			
-			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.BoxFont, Center)); //cardmove
-			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.BoxFont, Center)); //cardattack
+			layers.Add(cd.CreateTextLayer(MBoxX, MBoxY, MBoxWidth, MBoxHeight, Movement, cd.SuperFont, Center)); //cardmove
+			layers.Add(cd.CreateTextLayer(ABoxX, ABoxY, ABoxWidth, ABoxHeight, Attack, cd.SuperFont, Center)); //cardattack
 			Font abilityFont = cd.mediumFont;
 			if(CardAbility.Length > AttackAbility.Length) abilityFont = ChooseFont(CardAbility);
 			else abilityFont = ChooseFont(AttackAbility);
